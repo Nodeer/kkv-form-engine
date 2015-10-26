@@ -47,5 +47,12 @@ $app->group([
     $app->put('users/{user_id}', 'UserController@updateUser');
     $app->delete('users/{user_id}', 'UserController@deleteUser');
     $app->get('me', 'UserController@readCurrentUser');
+
+    // Slides
+    $app->get('slides', 'SlideController@listSlides');
+    $app->post('slides', 'SlideController@createSlide');
+    $app->post('slides/update_order', 'SlideController@updateOrder');
+    $app->put('slides/{id}', 'SlideController@updateSlide');
+    $app->delete('slides/{id}', 'SlideController@deleteSlide');
 });
 
