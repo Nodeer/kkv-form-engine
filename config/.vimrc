@@ -1,6 +1,7 @@
 set nocompatible " explicitly get out of vi-compatible mode
 syntax on " syntax highlighting on
 set number " show line numbers
+
 set autoindent " automatically indent next line
 set smartindent " try to indent lines according to the previous lines
 set tabstop=4 " real tabs should be 4, and they will show with set list on

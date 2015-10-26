@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 currentwindow=`tmux list-window | tr '\t' ' ' | sed -n -e '/(active)/s/^[^:]*: *\([^ ]*\) .*/\1/gp'`;
 currentpane=`tmux list-panes | sed -n -e '/(active)/s/^\([^:]*\):.*/\1/gp'`;
 panecount=`tmux list-panes | wc | sed -e 's/^ *//g' -e 's/ .*$//g'`;

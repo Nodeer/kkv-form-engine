@@ -39,11 +39,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: "sudo service php5-fpm restart", run: "always"
 
   # Copy over default configs to ${HOME}
-  config.vm.provision "shell", inline: "cp /vagrant/config/.bashrc ${HOME}/.bashrc", run: "always"
-  config.vm.provision "shell", inline: "cp /vagrant/config/.vimrc ${HOME}/.vimrc", run: "always"
-  config.vm.provision "shell", inline: "cp /vagrant/config/.tmux.conf ${HOME}/.tmux.conf", run: "always"
-  config.vm.provision "shell", inline: "cp -R /vagrant/config/.tmux ${HOME}/.tmux", run: "always"
-  config.vm.provision "shell", inline: "chmod +x ${HOME}/.tmux/zoom", run: "always"
+  config.vm.provision "shell", inline: "cp /vagrant/config/.bashrc /home/vagrant/.bashrc", run: "always"
+  config.vm.provision "shell", inline: "cp /vagrant/config/.vimrc /home/vagrant/.vimrc", run: "always"
+  config.vm.provision "shell", inline: "cp /vagrant/config/.tmux.conf /home/vagrant/.tmux.conf", run: "always"
+  config.vm.provision "shell", inline: "cp -R /vagrant/config/.tmux /home/vagrant/.tmux", run: "always"
+  config.vm.provision "shell", inline: "chmod +x /home/vagrant/.tmux/zoom", run: "always"
 
   config.vm.synced_folder "./storage", "/app/storage", {
       :mount_options => ['dmode=777','fmode=777'],
