@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
 
-  config.vm.network "forwarded_port", guest: 8006, host: 8040
+  config.vm.network "forwarded_port", guest: 8007, host: 8041
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -37,6 +37,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder "./ops/nginx-sites", "/etc/nginx/sites-enabled"
   config.vm.provision "shell", inline: "sudo service nginx restart", run: "always"
   config.vm.provision "shell", inline: "sudo service php5-fpm restart", run: "always"
+
+  # Copy over default configs to ${HOME}
+  config.vm.provision "shell", inline: "cp /vagrant/config/.bashrc ${HOME}/.bashrc", run: "always"
+  config.vm.provision "shell", inline: "cp /vagrant/config/.vimrc ${HOME}/.vimrc", run: "always"
+  config.vm.provision "shell", inline: "cp /vagrant/config/.tmux.conf ${HOME}/.tmux.conf", run: "always"
+  config.vm.provision "shell", inline: "cp -R /vagrant/config/.tmux ${HOME}/.tmux", run: "always"
+  config.vm.provision "shell", inline: "chmod +x ${HOME}/.tmux/zoom", run: "always"
 
   config.vm.synced_folder "./storage", "/app/storage", {
       :mount_options => ['dmode=777','fmode=777'],
