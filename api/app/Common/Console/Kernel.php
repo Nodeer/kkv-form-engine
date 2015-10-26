@@ -1,14 +1,26 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: soderluk
- * Date: 26.10.2015
- * Time: 9.24
- */
+<?php namespace Kkv\Common\Console;
 
-namespace Kkv\Common\Console;
-
-class Kernel
+class Kernel extends ConsoleKernel
 {
 
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+    ];
+
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param Schedule $schedule
+     *
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        // Schedule tasks
+    }
 }
