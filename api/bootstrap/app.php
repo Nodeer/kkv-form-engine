@@ -42,8 +42,8 @@ $app->withFacades();
 |
 */
 
-$app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Nord\Lumen\Core\App\Exception\Handler');
-$app->singleton('Illuminate\Contracts\Console\Kernel', 'Kkv\Common\Console\Kernel');
+$app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class, Nord\Lumen\Core\App\Exception\Handler::class);
+$app->singleton(Illuminate\Contracts\Console\Kernel::class, Kkv\Common\Console\Kernel::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -61,12 +61,12 @@ $app->middleware([
     // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
     // 'Illuminate\Session\Middleware\StartSession',
     // 'Illuminate\View\Middleware\ShareErrorsFromSession',
-    'Nord\Lumen\Cors\Middleware\CorsMiddleware',
+    Nord\Lumen\Cors\Middleware\CorsMiddleware::class,
 ]);
 
 $app->routeMiddleware([
     // 'csrf' => 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
-    'oauth2' => 'Nord\Lumen\OAuth2\Middleware\OAuth2Middleware',
+    'oauth2' => Nord\Lumen\OAuth2\Middleware\OAuth2Middleware::class,
 ]);
 
 /*
@@ -81,32 +81,20 @@ $app->routeMiddleware([
 */
 
 // CORS
-$app->register('Nord\Lumen\Cors\CorsServiceProvider');
+$app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 
 // Doctrine
-$app->register('Nord\Lumen\Doctrine\ORM\DoctrineServiceProvider');
-
-// RBAC
-$app->register('Nord\Lumen\Rbac\Doctrine\DoctrineStorageServiceProvider');
-$app->register('Nord\Lumen\Rbac\RbacServiceProvider');
-
-// Cloudinary
-$app->register('Nord\Lumen\Cloudinary\CloudinaryServiceProvider');
-
-// FileManager and ImageManager
-$app->register('Nord\Lumen\FileManager\Doctrine\DoctrineServiceProvider');
-$app->register('Nord\Lumen\FileManager\FileManagerServiceProvider');
-$app->register('Nord\Lumen\ImageManager\ImageManagerServiceProvider');
+$app->register(Nord\Lumen\Doctrine\ORM\DoctrineServiceProvider::class);
 
 // OAuth2
-$app->register('Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider');
-$app->register('Nord\Lumen\OAuth2\OAuth2ServiceProvider');
+$app->register(Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider::class);
+$app->register(Nord\Lumen\OAuth2\OAuth2ServiceProvider::class);
 
 // Serializer
-$app->register('Nord\Lumen\Serializer\SerializerServiceProvider');
+$app->register(Nord\Lumen\Serializer\SerializerServiceProvider::class);
 
 // Date
-$app->register('Jenssegers\Date\DateServiceProvider');
+$app->register(Jenssegers\Date\DateServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -118,7 +106,7 @@ $app->register('Jenssegers\Date\DateServiceProvider');
 */
 
 // @see http://laravel.com/docs/5.0/extending#authentication
-Auth::extend('kkv', function ($app) {
+Auth::extend('kkv-form-engine', function ($app) {
     return $app[Kkv\Access\App\UserService::class];
 });
 
