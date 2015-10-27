@@ -4,9 +4,7 @@ return [
     'mapping'         => 'xml',
     'paths'           => [
         base_path('app/Access/Infrastructure/Resources/ORM'),
-        base_path('app/Collaboration/Infrastructure/Resources/ORM'),
-        base_path('app/Documents/Infrastructure/Resources/ORM'),
-        base_path('app/History/Infrastructure/Resources/ORM'),
+        base_path('app/Slides/Infrastructure/Resources/ORM'),
         base_path('vendor/crisu83/overseer/src/Doctrine/Resources'),
         base_path('vendor/nordsoftware/lumen-oauth2/src/Doctrine/Resources'),
     ],
@@ -23,11 +21,8 @@ return [
         ],
     ],
     'types'           => [
-        'object_id'   => 'Nord\Lumen\Core\Infrastructure\ObjectIdType',
-        'status'      => 'Nord\Lumen\Core\Infrastructure\StatusType',
-        'role'        => 'Eventello\Access\Infrastructure\RoleType',
-        'task_status' => 'Eventello\Collaboration\Infrastructure\TaskStatusType',
-        'task_type'   => 'Eventello\Collaboration\Infrastructure\TaskTypeType',
+        'object_id' => 'Nord\Lumen\Core\Infrastructure\ObjectIdType',
+        'status'    => 'Nord\Lumen\Core\Infrastructure\StatusType',
     ],
     'proxy'           => [
         'directory' => storage_path('doctrine/proxies'),

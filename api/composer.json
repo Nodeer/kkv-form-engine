@@ -5,7 +5,8 @@
   "type": "project",
   "minimum-stability": "dev",
   "require": {
-    "laravel/lumen-framework": " 5.0.*",
+    "php": ">=5.5.9",
+    "laravel/lumen-framework": "5.1.*",
     "alchemy/zippy": "0.2.*@dev",
     "codegyre/robo": "dev-master",
     "illuminate/mail": "~5.0@dev",
@@ -17,12 +18,13 @@
     "nordsoftware/lumen-serializer": "~0.1@dev",
     "vlucas/phpdotenv": "~1.0",
     "mandrill/mandrill": "~1.0@dev",
-    "guzzlehttp/guzzle": "~5.0"
+    "guzzlehttp/guzzle": "~5.0",
+    "crisu83/shortid": "*",
     "nordsoftware/lumen-rbac": "~0.5@dev"
   },
   "require-dev": {
-    "codeception/codeception": "~2.1",
-    "flow/jsonpath": "dev-master",
+    "phpunit/phpunit": "~4.0",
+    "fzaninotto/faker": "~1.0",
     "doctrine/data-fixtures": "^1.1@dev"
   },
   "autoload": {
