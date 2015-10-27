@@ -64,3 +64,19 @@ $app->group([
     $app->delete('slides/{id}', 'SlideController@deleteSlide');
 });
 
+// Common
+$app->group([
+    'prefix'     => 'v1',
+    'namespace'  => 'Kkv\Common\Http',
+    'middleware' => 'oauth2',
+], function () use ($app) {
+    // Kuti
+    $app->post('kuti/save_session', 'KutiController@saveSession');
+    $app->get('kuti/get_session_id', 'KutiController@getSessionId');
+
+    // Autocomplete
+    $app->post('autocomplete', 'AutoCompleteController@autocomplete');
+
+    // Mail
+    $app->post('mail', 'MailController@sendMail');
+});

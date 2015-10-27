@@ -23,12 +23,15 @@ $app->useStoragePath(env('APP_STORAGE_PATH'));
 
 $app->configure('app');
 $app->configure('auth');
+$app->configure('view');
 $app->configure('cors');
 $app->configure('database');
 $app->configure('doctrine');
 $app->configure('oauth2');
 $app->configure('serializer');
 $app->configure('rbac');
+$app->configure('services');
+$app->configure('mail');
 
 $app->withFacades();
 
@@ -100,6 +103,9 @@ $app->register(Nord\Lumen\Serializer\SerializerServiceProvider::class);
 
 // Date
 $app->register(Jenssegers\Date\DateServiceProvider::class);
+
+// Mail
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
