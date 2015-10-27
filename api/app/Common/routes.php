@@ -47,9 +47,17 @@ $app->group([
     $app->put('users/{user_id}', 'UserController@updateUser');
     $app->delete('users/{user_id}', 'UserController@deleteUser');
     $app->get('me', 'UserController@readCurrentUser');
+});
 
+// Slides
+$app->group([
+    'prefix'     => 'v1',
+    'namespace'  => 'Kkv\Slides\Http',
+    'middleware' => 'oauth2',
+], function () use ($app) {
     // Slides
     $app->get('slides', 'SlideController@listSlides');
+    $app->get('slides/{id}', 'SlideController@readSlide');
     $app->post('slides', 'SlideController@createSlide');
     $app->post('slides/update_order', 'SlideController@updateOrder');
     $app->put('slides/{id}', 'SlideController@updateSlide');
