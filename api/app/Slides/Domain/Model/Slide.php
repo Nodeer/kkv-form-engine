@@ -83,6 +83,9 @@ class Slide implements Entity
      * @param int         $summaryAfter
      * @param int         $excludeFromSummary
      * @param int|null    $orderNumber
+     * @param int         $status
+     *
+     * @throws \Nord\Lumen\Core\Exception\ImmutableProperty
      */
     public function __construct(
         ObjectId $objectId,
@@ -94,7 +97,8 @@ class Slide implements Entity
         $saveAfter,
         $summaryAfter,
         $excludeFromSummary,
-        $orderNumber = null
+        $orderNumber = null,
+        $status = Slide::STATUS_DRAFT
     ) {
         $this->setObjectId($objectId);
         $this->setName($name);
@@ -106,7 +110,7 @@ class Slide implements Entity
         $this->setSummaryAfter($summaryAfter);
         $this->setExcludeFromSummary($excludeFromSummary);
         $this->setOrderNumber($orderNumber);
-        $this->setStatus(new Status(self::STATUS_DRAFT));
+        $this->setStatus(new Status($status));
     }
 
 

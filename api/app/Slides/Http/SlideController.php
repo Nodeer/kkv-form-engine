@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Kkv\Slides\App\HandlesSlides;
+use Kkv\Slides\Domain\Model\Slide;
 use Laravel\Lumen\Routing\Controller;
 use Nord\Lumen\Core\App\CreatesHttpResponses;
 use Nord\Lumen\Core\App\SerializesData;
@@ -44,9 +45,10 @@ class SlideController extends Controller
         $summaryAfter       = $request->get('summary_after');
         $excludeFromSummary = $request->get('exclude_from_summary');
         $orderNumber        = $request->get('order_number');
+        $status             = $request->get('status', Slide::STATUS_DRAFT);
 
         $slide = $this->getSlideService()->createSlide($name, $label, $summaryLabel, $elements, $style, $saveAfter,
-            $summaryAfter, $excludeFromSummary, $orderNumber);
+            $summaryAfter, $excludeFromSummary, $orderNumber, $status);
 
         return $this->resourceCreatedResponse($this->serializeData($slide));
     }
@@ -82,9 +84,10 @@ class SlideController extends Controller
         $summaryAfter       = $request->get('summary_after');
         $excludeFromSummary = $request->get('exclude_from_summary');
         $orderNumber        = $request->get('order_number');
+        $status             = $request->get('status');
 
         $this->getSlideService()->updateSlide($slide, $name, $label, $summaryLabel, $elements, $style, $saveAfter,
-            $summaryAfter, $excludeFromSummary, $orderNumber);
+            $summaryAfter, $excludeFromSummary, $orderNumber, $status);
 
         return $this->resourceOkResponse($this->serializeData($slide));
     }

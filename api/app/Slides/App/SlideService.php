@@ -24,6 +24,8 @@ class SlideService
      * @param int         $excludeFromSummary
      * @param int|null    $orderNumber
      *
+     * @param int         $status
+     *
      * @return Slide
      * @throws \Nord\Lumen\Core\Exception\FatalError
      */
@@ -36,7 +38,8 @@ class SlideService
         $saveAfter,
         $summaryAfter,
         $excludeFromSummary,
-        $orderNumber = null
+        $orderNumber = null,
+        $status = Slide::STATUS_DRAFT
     ) {
 
         $objectId = $this->createObjectId(function ($value) {
@@ -44,7 +47,7 @@ class SlideService
         });
 
         $slide = new Slide($objectId, $name, $label, $summaryLabel, $elements, $style, $saveAfter, $summaryAfter,
-            $excludeFromSummary, $orderNumber);
+            $excludeFromSummary, $orderNumber, $status);
 
         $this->saveEntityAndCommit($slide);
 
@@ -63,6 +66,7 @@ class SlideService
      * @param int         $summaryAfter
      * @param int         $excludeFromSummary
      * @param int|null    $orderNumber
+     * @param int         $status
      */
     public function updateSlide(
         Slide $slide,
@@ -74,7 +78,8 @@ class SlideService
         $saveAfter,
         $summaryAfter,
         $excludeFromSummary,
-        $orderNumber = null
+        $orderNumber = null,
+        $status = Slide::STATUS_DRAFT
     ) {
         if ($slide->getName() !== $name) {
             $slide->changeName($name);
@@ -102,6 +107,9 @@ class SlideService
         }
         if ($slide->getOrderNumber() !== $orderNumber) {
             $slide->changeOrderNumber($orderNumber);
+        }
+        if ($slide->getStatusValue() !== $status) {
+            $slide->changeStatus($status);
         }
 
         $this->updateEntityAndCommit($slide);
