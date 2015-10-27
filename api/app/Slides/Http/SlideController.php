@@ -28,22 +28,22 @@ class SlideController extends Controller
     public function createSlide(Request $request)
     {
         $this->tryValidateData($request->all(), [
-            'saveAfter'          => 'required|integer',
-            'summaryAfter'       => 'required|integer',
-            'excludeFromSummary' => 'required|integer',
+            'save_after'           => 'required|integer',
+            'summary_after'        => 'required|integer',
+            'exclude_from_summary' => 'required|integer',
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });
 
         $name               = $request->get('name');
         $label              = $request->get('label');
-        $summaryLabel       = $request->get('summaryLabel');
+        $summaryLabel       = $request->get('summary_label');
         $elements           = $request->get('elements', []);
         $style              = $request->get('style', []);
-        $saveAfter          = $request->get('saveAfter');
-        $summaryAfter       = $request->get('summaryAFter');
-        $excludeFromSummary = $request->get('excludeFromSummary');
-        $orderNumber        = $request->get('orderNumber');
+        $saveAfter          = $request->get('save_after');
+        $summaryAfter       = $request->get('summary_after');
+        $excludeFromSummary = $request->get('exclude_from_summary');
+        $orderNumber        = $request->get('order_number');
 
         $slide = $this->getSlideService()->createSlide($name, $label, $summaryLabel, $elements, $style, $saveAfter,
             $summaryAfter, $excludeFromSummary, $orderNumber);
@@ -66,22 +66,22 @@ class SlideController extends Controller
         });
 
         $this->tryValidateData($request->all(), [
-            'saveAfter'          => 'required|integer',
-            'summaryAfter'       => 'required|integer',
-            'excludeFromSummary' => 'required|integer',
+            'save_after'           => 'required|integer',
+            'summary_after'        => 'required|integer',
+            'exclude_from_summary' => 'required|integer',
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });
 
         $name               = $request->get('name');
         $label              = $request->get('label');
-        $summaryLabel       = $request->get('summaryLabel');
+        $summaryLabel       = $request->get('summary_label');
         $elements           = $request->get('elements', []);
         $style              = $request->get('style', []);
-        $saveAfter          = $request->get('saveAfter');
-        $summaryAfter       = $request->get('summaryAFter');
-        $excludeFromSummary = $request->get('excludeFromSummary');
-        $orderNumber        = $request->get('orderNumber');
+        $saveAfter          = $request->get('save_after');
+        $summaryAfter       = $request->get('summary_after');
+        $excludeFromSummary = $request->get('exclude_from_summary');
+        $orderNumber        = $request->get('order_number');
 
         $this->getSlideService()->updateSlide($slide, $name, $label, $summaryLabel, $elements, $style, $saveAfter,
             $summaryAfter, $excludeFromSummary, $orderNumber);
