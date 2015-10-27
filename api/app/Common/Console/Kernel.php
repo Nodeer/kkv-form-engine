@@ -1,6 +1,8 @@
 <?php namespace Kkv\Common\Console;
 
-class Kernel extends ConsoleKernel
+use Illuminate\Console\Scheduling\Schedule;
+
+class Kernel extends \Laravel\Lumen\Console\Kernel
 {
 
     /**
