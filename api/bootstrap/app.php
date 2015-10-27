@@ -104,9 +104,6 @@ $app->register(Nord\Lumen\Serializer\SerializerServiceProvider::class);
 // Date
 $app->register(Jenssegers\Date\DateServiceProvider::class);
 
-// Mail
-$app->register(Illuminate\Mail\MailServiceProvider::class);
-
 // Kuti
 $app->register(Kkv\Common\Providers\KutiServiceProvider::class);
 

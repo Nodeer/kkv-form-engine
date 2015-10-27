@@ -1,5 +1,6 @@
 <?php namespace Kkv\Common\Http;
 
+use GuzzleHttp\Message\Response;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
@@ -14,6 +15,7 @@ use Nord\Lumen\Core\App\ValidatesData;
  */
 class MailController extends Controller
 {
+
     use CreatesHttpResponses;
     use ValidatesData;
     use SerializesData;
@@ -27,26 +29,35 @@ class MailController extends Controller
     public function sendMail(Request $request)
     {
         $this->tryValidateData($request->all(), [
-            'message'           => 'required',
+            'subject'    => 'required',
+            'from_email' => 'required',
+            'from_name'  => 'required',
+            'to'         => 'required',
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });
 
-        // todo: figure out these parameters.
+        // Collect the data.
         $data = [
-            'subject' => '',
-            'body' => $request->get('message'),
-            'to' => '',
-            'toName' => '',
+            'subject'   => $request->get('subject'),
+            'fromEmail' => $request->get('from_email'),
+            'fromName'  => $request->get('from_name'),
+            'to'        => $request->get('to'),
+            'htmlBody'  => $request->get('html'),
+            'textBody'  => $request->get('text'),
         ];
 
-        $result = Mail::send('message', $data, function ($message) use ($data) {
+        // Send the email.
+        $response = Mail::send(['html-message', 'text-message'], $data, function ($message) use ($data) {
             /** @var Message $message */
             $message->subject($data['subject']);
-            $message->to($data['to'], $data['toName']);
+            foreach ($data['to'] as $to) {
+                $message->to($to['email']);
+            }
+            $message->from($data['fromEmail'], $data['fromName']);
         });
 
-        if ($result > 0 ) {
+        if ($response instanceof Response && $response->getStatusCode() === 200) {
             return $this->okResponse();
         } else {
             return $this->errorResponse('ERROR.COULD_NOT_SEND_EMAIL');
