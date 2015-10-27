@@ -28,6 +28,7 @@ $app->configure('database');
 $app->configure('doctrine');
 $app->configure('oauth2');
 $app->configure('serializer');
+$app->configure('rbac');
 
 $app->withFacades();
 
@@ -89,6 +90,10 @@ $app->register(Nord\Lumen\Doctrine\ORM\DoctrineServiceProvider::class);
 // OAuth2
 $app->register(Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider::class);
 $app->register(Nord\Lumen\OAuth2\OAuth2ServiceProvider::class);
+
+// RBAC
+$app->register(Nord\Lumen\Rbac\Doctrine\DoctrineStorageServiceProvider::class);
+$app->register(Nord\Lumen\Rbac\RbacServiceProvider::class);
 
 // Serializer
 $app->register(Nord\Lumen\Serializer\SerializerServiceProvider::class);
