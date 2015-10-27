@@ -1,5 +1,6 @@
 <?php namespace Kkv\Access\App;
 
+use Crisu83\Overseer\Entity\Subject;
 use Kkv\Access\Domain\Model\User;
 use Kkv\Access\Infrastructure\UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -10,8 +11,9 @@ use Nord\Lumen\Core\App\AuthenticatesUsers;
 use Nord\Lumen\Core\App\ChecksPermissions;
 use Nord\Lumen\Core\App\CreatesIdentities;
 use Nord\Lumen\Core\App\ManagesEntities;
+use Nord\Lumen\Rbac\Contracts\SubjectProvider;
 
-final class UserService implements UserProvider
+final class UserService implements UserProvider, SubjectProvider
 {
 
     use ManagesEntities;
@@ -196,5 +198,14 @@ final class UserService implements UserProvider
     private function getRepository()
     {
         return $this->getEntityRepository(User::class);
+    }
+
+
+    /**
+     * @return Subject
+     */
+    public function getSubject()
+    {
+        return $this->getCurrentUser();
     }
 }
