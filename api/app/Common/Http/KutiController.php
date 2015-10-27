@@ -36,7 +36,7 @@ class KutiController extends Controller
     public function saveSession(Request $request)
     {
         $this->tryValidateData($request->all(), [
-            'session' => 'required|max:255',
+            'session' => 'required',
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });
