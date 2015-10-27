@@ -27,6 +27,6 @@ class AutoCompleteController extends Controller
     {
         $url = $request->get('source');
 
-        return $this->okResponse(Kuti::get($url));
+        return $this->okResponse(Kuti::get($url, [], true));
     }
 }
