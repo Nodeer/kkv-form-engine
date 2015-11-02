@@ -53,11 +53,18 @@ $app->group([
 $app->group([
     'prefix'     => 'v1',
     'namespace'  => 'Kkv\Slides\Http',
-    'middleware' => 'oauth2',
 ], function () use ($app) {
     // Slides
     $app->get('slides', 'SlideController@listSlides');
     $app->get('slides/{id}', 'SlideController@readSlide');
+});
+
+$app->group([
+    'prefix'     => 'v1',
+    'namespace'  => 'Kkv\Slides\Http',
+    'middleware' => 'oauth2',
+], function () use ($app) {
+    // Slides
     $app->post('slides', 'SlideController@createSlide');
     $app->post('slides/update_order', 'SlideController@updateOrder');
     $app->put('slides/{id}', 'SlideController@updateSlide');
@@ -68,7 +75,6 @@ $app->group([
 $app->group([
     'prefix'     => 'v1',
     'namespace'  => 'Kkv\Common\Http',
-    'middleware' => 'oauth2',
 ], function () use ($app) {
     // Kuti
     $app->post('kuti/save_session', 'KutiController@saveSession');
