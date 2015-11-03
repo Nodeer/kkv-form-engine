@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name api.nettineuvoja.dev;
+    server_name api.kkv.dev;
 
     root /app/api/public;
     index index.php;

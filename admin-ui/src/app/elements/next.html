@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+    <div nn-element-header nn-element-header-sticky></div>
+    <div class="panel-body" ng-show="!collapsed">
+        <div nn-form-group>
+            <label for="{{ model.id }}_label">Label</label>
+            <input class="form-control" type="text" name="{{ element.id }}_label"
+                   id="{{ model.id }}_label"
+                   ng-model="model.label"/>
+        </div>
+        <div nn-form-group>
+            <div class="nullable">
+                <label for="{{ model.id }}_next_slide">Next slide</label>
+                <select class="form-control"
+                        name="{{ model.id }}_next_slide"
+                        id="{{ model.id }}_next_slide"
+                        ng-model="model.next_slide"
+                        ng-options="option.name as option.label for option in slideService.slideOptions | orderBy:'label'">
+                    <option value="">-- Slide --</option>
+                </select>
+            </div>
+        </div>
+        <div nn-styles="model.style"></div>
+    </div>
+</div>

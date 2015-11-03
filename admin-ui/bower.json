@@ -1,0 +1,34 @@
+{
+  "name": "nettineuvoja-admin",
+  "version": "1.0.0",
+  "main": "app/js/app.js",
+  "moduleType": [
+    "node"
+  ],
+  "authors": [
+    "Christoffer Niska <christoffer.niska@nordsoftware.com>"
+  ],
+  "license": "Proprietary",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.14",
+    "angular-animate": "~1.3.14",
+    "angular-bootstrap": "~0.12.1",
+    "angular-route": "~1.3.14",
+    "bootstrap": "~3.3.4",
+    "jquery": "~2.1.3",
+    "modernizr": "~2.8.3",
+    "chance": "~0.7.3",
+    "textAngular": "~1.3.11",
+    "font-awesome": "~4.3.0"
+  },
+  "resolutions": {
+    "angular": "~1.3.14"
+  }
+}
