@@ -32,6 +32,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnHtmlElement'
             },
-            templateUrl: 'elements/html.html'
+            templateUrl: 'components/elements/html.html'
         };
     });

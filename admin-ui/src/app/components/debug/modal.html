@@ -1,0 +1,28 @@
+<div class="debug">
+  <div class="modal-body">
+    <h3 class="debug__heading">
+      Server Error
+      <small class="debug__exception">{{ data.exception }}</small>
+    </h3>
+
+    <div class="debug__message">{{ data.message || 'No message' }}</div>
+
+    <div class="debug__source">{{ data.file }}({{ data.line }})</div>
+
+    <div class="debug__trace">
+      <h5 class="debug__trace-heading">Stack Trace</h5>
+
+      <ol class="debug__trace-nav">
+        <li class="debug__trace-item" ng-repeat="item in data.trace" ng-if="item.file">
+          <span class="debug__trace-source">{{ item.file }}({{ item.line }})</span>
+          <span class="debug__trace-function">{{ item.class ? item.class + '::' : '' }}{{ item.function }}</span>
+        </li>
+      </ol>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="debug__close-button" ng-click="close()">Close</button>
+  </div>
+
+</div>

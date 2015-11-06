@@ -1,0 +1,38 @@
+<div class="login">
+  <div class="">
+    <div class="">
+      <form class="login__form" name="loginForm" novalidate ng-submit="login()" ng-class="{'loading': loading}">
+        <label ng-class="{error: validateService.hasFieldErrors(loginForm.email)}">
+          Email
+          <input type="email"
+                 name="email"
+                 ng-model="email"
+                 ng-model-options="{updateOn: 'blur'}"
+                 ng-pattern="validateService.emailPattern"
+                 placeholder="you@domain.com"
+                 required>
+        </label>
+        <small class="error"
+               ng-messages="loginForm.email.$error" ng-if="validateService.hasFieldErrors(loginForm.email)">
+          <span ng-message="pattern">Email is not valid.</span>
+          <span ng-message="required">Field is required.</span>
+        </small>
+        <label ng-class="{error: validateService.hasFieldErrors(loginForm.password)}">
+          Password
+          <input type="password"
+                 name="password"
+                 ng-model="password"
+                 placeholder="**********"
+                 required>
+        </label>
+        <small class="error"
+               ng-messages="loginForm.password.$error" ng-if="validateService.hasFieldErrors(loginForm.password)">
+          <span ng-message="required">Field is required.</span>
+        </small>
+        <button type="submit" class="btn btn-primary" ng-disabled="!canSubmit()">Log in</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+

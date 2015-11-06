@@ -134,6 +134,6 @@ angular.module('nnAdmin')
             scope: {
                 styles: '=nnStyles'
             },
-            templateUrl: 'elements/styles.html'
+            templateUrl: 'components/elements/styles.html'
         };
     });

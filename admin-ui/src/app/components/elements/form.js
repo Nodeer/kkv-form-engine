@@ -77,6 +77,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnFormElement'
             },
-            templateUrl: 'elements/form.html'
+            templateUrl: 'components/elements/form.html'
         };
     });

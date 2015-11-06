@@ -1,21 +1,13 @@
 'use strict';
 
-angular
-  .module('nnAdmin', [
-    'ngRoute',
-    'ngAnimate',
-
-    'nnAdmin.constants',
-    'nnAdmin.templates',
-
-    'ui.bootstrap',
-    'textAngular'
-  ])
-
-  .config(function ($locationProvider) {
-    $locationProvider.html5Mode(true);
-  })
-
-  .config(function($logProvider, DEBUG) {
-    $logProvider.debugEnabled(DEBUG);
-  });
+angular.module('nnAdmin', [
+  'ngAnimate',
+  'ui.router',
+  'ui-notification',
+  'nnAdmin.constants',
+  'nnAdmin.templates',
+  'lodash',
+  'LocalStorageModule',
+  'ui.bootstrap',
+  'textAngular'
+]);

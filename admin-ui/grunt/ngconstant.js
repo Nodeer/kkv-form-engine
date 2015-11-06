@@ -7,7 +7,10 @@ module.exports = function (grunt, options) {
             dest: '<%= build %>/js/config.js',
             wrap: "'use strict';\n\n{%= __ngModule %}",
             constants: {
-                API_URL: 'http://api.kkv.dev/v1',
+                API_URL: 'http://api.kkv.dev',
+                API_VERSION: 'v1',
+                OAUTH2_CLIENT_ID: 'kkv-form-engine',
+                OAUTH2_CLIENT_SECRET: 'FpfqCBp7HO1+5I3R83mLfl2jjkEUucIeyxjNVnq9zQA=',
                 FLOWCHART_URL: 'http://yuml.me/diagram/scruffy/class/',
                 DEBUG: false,
                 VERSION: pkg.version

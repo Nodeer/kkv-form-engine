@@ -2,10 +2,10 @@
 
 angular.module('nnAdmin')
 
-    // Directive that allows us to re-use the element header element.
-    .directive('nnElementHeader', function () {
+    // Directive that allows us to re-use the item header element.
+    .directive('nnItemHeader', function () {
         return {
-            templateUrl: 'elements/header.html',
+            templateUrl: 'components/elements/item-header.html',
             transclude: true,
             link: function (scope, element) {
                 element.addClass('panel-heading');

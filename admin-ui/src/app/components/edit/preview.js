@@ -7,7 +7,7 @@ angular.module('nnAdmin')
         function open(model) {
             $modal.open({
                 size: 'lg',
-                templateUrl: 'edit/preview.html',
+                templateUrl: 'components/edit/preview.html',
                 controller: 'PreviewCtrl',
                 resolve: {
                     model: function () {

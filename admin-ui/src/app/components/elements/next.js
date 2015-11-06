@@ -20,6 +20,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnNextElement'
             },
-            templateUrl: 'elements/next.html'
+            templateUrl: 'components/elements/next.html'
         };
     });

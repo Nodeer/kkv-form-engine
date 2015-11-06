@@ -21,6 +21,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnChoiceItem'
             },
-            templateUrl: 'elements/choice-item.html'
+            templateUrl: 'components/elements/choice-item.html'
         };
     });

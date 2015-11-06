@@ -23,6 +23,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnFormItem'
             },
-            templateUrl: 'elements/form-item.html'
+            templateUrl: 'components/elements/form-item.html'
         };
     });

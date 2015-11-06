@@ -6,7 +6,7 @@ angular.module('nnAdmin')
         function open(model) {
             $modal.open({
                 size: 'lg',
-                templateUrl: 'elements/info.html',
+                templateUrl: 'components/elements/info.html',
                 controller: 'InfoCtrl',
                 resolve: {
                     model: function () {

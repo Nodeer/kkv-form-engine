@@ -1,4 +1,4 @@
-<?php namespace Eventello\Access\Http;
+<?php namespace Kkv\Access\Http;
 
 use Kkv\Access\App\HandlesUsers;
 use Illuminate\Http\Request;

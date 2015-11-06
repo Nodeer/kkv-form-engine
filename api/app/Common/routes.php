@@ -31,7 +31,7 @@ $app->group([
     'namespace' => 'Kkv\Access\Http',
 ], function () use ($app) {
     $app->post('auth/login', 'AuthController@login');
-    $app->get('auth/validate', 'AuthController@validateToken');
+    $app->post('auth/validate', 'AuthController@validateToken');
     $app->post('auth/refresh', 'AuthController@refreshToken');
 });
 

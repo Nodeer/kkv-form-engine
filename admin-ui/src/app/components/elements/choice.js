@@ -57,6 +57,6 @@ angular.module('nnAdmin')
             scope: {
                 data: '=nnChoiceElement'
             },
-            templateUrl: 'elements/choice.html'
+            templateUrl: 'components/elements/choice.html'
         };
     });

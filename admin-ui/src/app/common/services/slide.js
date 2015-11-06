@@ -31,10 +31,9 @@ angular.module('nnAdmin')
             angular.forEach(slide.elements, function (value) {
                 normalizeElement(value);
             });
-            slide.order_number = parseInt(slide.order_number);
-            slide.save_after = slide.save_after === '1';
-            slide.summary_after = slide.summary_after === '1';
-            slide.exclude_from_summary = slide.exclude_from_summary === '1';
+            slide.save_after = slide.save_after === 1;
+            slide.summary_after = slide.summary_after === 1;
+            slide.exclude_from_summary = slide.exclude_from_summary === 1;
             delete slide.self;
             return slide;
         }
@@ -147,8 +146,6 @@ angular.module('nnAdmin')
             var id = slide.id;
             var copy = angular.copy(slide);
             copy = serialize(copy);
-            copy.elements = angular.toJson(copy.elements);
-            copy.style = angular.toJson(copy.style);
             delete copy.id;
             return ApiService.saveSlide(id, copy)
                 .then(function (response) {
