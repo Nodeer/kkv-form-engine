@@ -75,7 +75,7 @@ class AuthController extends Controller
 
             return $this->okResponse();
         } catch (OAuthException $e) {
-            return $this->accessDeniedResponse($e->getMessage());
+            return $this->accessDeniedResponse('Access token not found.');
         }
     }
 
@@ -90,7 +90,7 @@ class AuthController extends Controller
         try {
             return $this->okResponse($this->getOAuth2Service()->issueAccessToken());
         } catch (OAuthException $e) {
-            return $this->forbiddenResponse($e->getMessage());
+            return $this->forbiddenResponse('Refresh token not found.');
         }
     }
 }
