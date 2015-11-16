@@ -17,7 +17,7 @@ use Nord\Lumen\Doctrine\ORM\Traits\Timestamps;
 class Slide implements Entity
 {
 
-    const STATUS_DRAFT = 0;
+    const STATUS_DRAFT     = 0;
     const STATUS_PUBLISHED = 1;
 
     use HasIdentity;
@@ -54,17 +54,17 @@ class Slide implements Entity
     /**
      * @var int
      */
-    private $saveAfter;
+    private $saveAfter = 0;
 
     /**
      * @var int
      */
-    private $summaryAfter;
+    private $summaryAfter = 0;
 
     /**
      * @var int
      */
-    private $excludeFromSummary;
+    private $excludeFromSummary = 0;
 
     /**
      * @var int
@@ -73,44 +73,19 @@ class Slide implements Entity
 
 
     /**
-     * @param ObjectId    $objectId
-     * @param string|null $name
-     * @param string|null $label
-     * @param string|null $summaryLabel
-     * @param array       $elements
-     * @param array       $style
-     * @param int         $saveAfter
-     * @param int         $summaryAfter
-     * @param int         $excludeFromSummary
-     * @param int|null    $orderNumber
-     * @param int         $status
-     *
-     * @throws \Nord\Lumen\Core\Exception\ImmutableProperty
+     * @param ObjectId $objectId
+     * @param string   $name
+     * @param string   $label
      */
     public function __construct(
         ObjectId $objectId,
-        $name = null,
-        $label = null,
-        $summaryLabel = null,
-        array $elements = [],
-        array $style = [],
-        $saveAfter,
-        $summaryAfter,
-        $excludeFromSummary,
-        $orderNumber = null,
-        $status = Slide::STATUS_DRAFT
+        $name,
+        $label
     ) {
         $this->setObjectId($objectId);
         $this->setName($name);
         $this->setLabel($label);
-        $this->setSummaryLabel($summaryLabel);
-        $this->setElements($elements);
-        $this->setStyle($style);
-        $this->setSaveAfter($saveAfter);
-        $this->setSummaryAfter($summaryAfter);
-        $this->setExcludeFromSummary($excludeFromSummary);
-        $this->setOrderNumber($orderNumber);
-        $this->setStatus(new Status($status));
+        $this->setStatus(new Status(self::STATUS_PUBLISHED));
     }
 
 

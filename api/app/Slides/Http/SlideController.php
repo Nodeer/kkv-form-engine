@@ -28,27 +28,10 @@ class SlideController extends Controller
      */
     public function createSlide(Request $request)
     {
-        $this->tryValidateData($request->all(), [
-            'save_after'           => 'required|integer',
-            'summary_after'        => 'required|integer',
-            'exclude_from_summary' => 'required|integer',
-        ], function ($errors) {
-            $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
-        });
+        $name  = $request->get('name');
+        $label = $request->get('label');
 
-        $name               = $request->get('name');
-        $label              = $request->get('label');
-        $summaryLabel       = $request->get('summary_label');
-        $elements           = $request->get('elements', []);
-        $style              = $request->get('style', []);
-        $saveAfter          = $request->get('save_after');
-        $summaryAfter       = $request->get('summary_after');
-        $excludeFromSummary = $request->get('exclude_from_summary');
-        $orderNumber        = $request->get('order_number');
-        $status             = $request->get('status', Slide::STATUS_DRAFT);
-
-        $slide = $this->getSlideService()->createSlide($name, $label, $summaryLabel, $elements, $style, $saveAfter,
-            $summaryAfter, $excludeFromSummary, $orderNumber, $status);
+        $slide = $this->getSlideService()->createSlide($name, $label);
 
         return $this->resourceCreatedResponse($this->serializeData($slide));
     }
@@ -68,9 +51,7 @@ class SlideController extends Controller
         });
 
         $this->tryValidateData($request->all(), [
-            'save_after'           => 'required|integer',
-            'summary_after'        => 'required|integer',
-            'exclude_from_summary' => 'required|integer',
+
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });

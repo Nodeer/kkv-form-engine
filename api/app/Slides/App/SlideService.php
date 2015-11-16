@@ -14,40 +14,19 @@ class SlideService
 
 
     /**
-     * @param string|null $name
-     * @param string|null $label
-     * @param string|null $summaryLabel
-     * @param array       $elements
-     * @param array       $style
-     * @param int         $saveAfter
-     * @param int         $summaryAfter
-     * @param int         $excludeFromSummary
-     * @param int|null    $orderNumber
-     *
-     * @param int         $status
+     * @param string $name
+     * @param string $label
      *
      * @return Slide
      * @throws \Nord\Lumen\Core\Exception\FatalError
      */
-    public function createSlide(
-        $name = null,
-        $label = null,
-        $summaryLabel = null,
-        array $elements = [],
-        array $style = [],
-        $saveAfter,
-        $summaryAfter,
-        $excludeFromSummary,
-        $orderNumber = null,
-        $status = Slide::STATUS_DRAFT
-    ) {
-
+    public function createSlide($name, $label)
+    {
         $objectId = $this->createObjectId(function ($value) {
             return $this->getRepository()->objectIdExists($value);
         });
 
-        $slide = new Slide($objectId, $name, $label, $summaryLabel, $elements, $style, $saveAfter, $summaryAfter,
-            $excludeFromSummary, $orderNumber, $status);
+        $slide = new Slide($objectId, $name, $label);
 
         $this->saveEntityAndCommit($slide);
 
@@ -57,8 +36,8 @@ class SlideService
 
     /**
      * @param Slide       $slide
-     * @param string|null $name
-     * @param string|null $label
+     * @param string      $name
+     * @param string      $label
      * @param string|null $summaryLabel
      * @param array       $elements
      * @param array       $style
@@ -70,16 +49,16 @@ class SlideService
      */
     public function updateSlide(
         Slide $slide,
-        $name = null,
-        $label = null,
+        $name,
+        $label,
         $summaryLabel = null,
         array $elements = [],
         array $style = [],
-        $saveAfter,
-        $summaryAfter,
-        $excludeFromSummary,
+        $saveAfter = 0,
+        $summaryAfter = 0,
+        $excludeFromSummary = 0,
         $orderNumber = null,
-        $status = Slide::STATUS_DRAFT
+        $status
     ) {
         if ($slide->getName() !== $name) {
             $slide->changeName($name);
