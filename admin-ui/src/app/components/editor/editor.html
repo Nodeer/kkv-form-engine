@@ -1,6 +1,6 @@
-<div class="edit" ng-show="!loading">
-    <div class="edit-inner">
-        <div class="edit-left">
+<div class="editor" ng-show="!loading">
+    <div class="editor-inner">
+        <div class="editor-left">
             <div class="header-slide" nn-fixed-header="10">
                 <h2 class="slide-title">
                     {{ model.label || 'New slide' }}
@@ -17,7 +17,7 @@
             <form class="form" name="slideForm">
 
                 <div nn-form-group>
-                    <label for="{{ model.id }}_name">System Name</label>
+                    <label for="{{ model.id }}_name">System name</label>
                     <input class="form-control" type="text" name="{{ model.id }}_name"
                            id="{{ model.id }}_name"
                            ng-model="model.name"/>
@@ -88,8 +88,8 @@
                 <pre>model: {{ model | json }}</pre>
             </div>
         </div>
-        <div class="edit-right">
-            <div class="header-sidebar" nn-fixed-header="10">
+        <div class="editor-right">
+            <div class="header-sidebar">
                 <h2 class="sidebar-title">
                     Slides
                     <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="slide-add">
-                <a class="add-button" title="Add slide" ng-click="slideService.add()"><i class="bts bt-plus"></i></a>
+                <a class="add-button" title="Add slide" ng-click="slideService.addModal()"><i class="bts bt-plus"></i></a>
             </div>
         </div>
     </div>

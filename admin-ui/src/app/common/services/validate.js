@@ -1,5 +1,5 @@
 angular.module('nnAdmin')
-  .factory('ValidateService', function() {
+  .factory('validateService', function() {
     var emailPattern = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
     /**

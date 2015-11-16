@@ -1,9 +1,7 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Service that handles all logic related to choice elements.
-    .service('ChoiceElementService', function () {
+    .service('choiceElementService', function () {
         var iconOptions = [
             {url: 'images/icon-cart.png', label: 'Cart'},
             {url: 'images/icon-company.png', label: 'Company'},
@@ -40,10 +38,10 @@ angular.module('nnAdmin')
     })
 
     // Controller that connects the necessary services to the choice element view.
-    .controller('ChoiceElementCtrl', function ($scope, COLLAPSED_DEFAULT, ElementService, ItemService) {
+    .controller('ChoiceElementCtrl', function ($scope, COLLAPSED_DEFAULT, elementService, itemService) {
         $scope.collapsed = COLLAPSED_DEFAULT;
-        $scope.elementService = ElementService;
-        $scope.itemService = ItemService;
+        $scope.elementService = elementService;
+        $scope.itemService = itemService;
         $scope.model = $scope.data.elements[$scope.data.index];
         $scope.model.items = $scope.model.items || [];
         $scope.model.style = $scope.model.style || [];

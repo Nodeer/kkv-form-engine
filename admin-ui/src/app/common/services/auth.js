@@ -8,11 +8,47 @@ angular.module('nnAdmin')
   .constant('AuthError', {
     'ACCESS_DENIED': 'access_denied'
   })
-  .factory('AuthService', function($log, $rootScope, $q, $http, $httpParamSerializer, _, ApiService, StorageService, AuthEvent, AuthError) {
+  .factory('AuthTokenBag', function() {
+    /**
+     * @param {string} accessToken
+     * @param {string} refreshToken
+     * @constructor
+     */
+    var AuthTokenBag = function(accessToken, refreshToken) {
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
+    };
+
+    /**
+     * @returns {string}
+     */
+    AuthTokenBag.prototype.getAccessToken = function() {
+      return this.accessToken;
+    };
+
+    /**
+     * @returns {string}
+     */
+    AuthTokenBag.prototype.getRefreshToken = function() {
+      return this.refreshToken;
+    };
+
+    /**
+     * @returns {object}
+     */
+    AuthTokenBag.prototype.serialize = function() {
+      return {
+        accessToken: this.accessToken,
+        refreshToken: this.refreshToken
+      };
+    };
+
+    return AuthTokenBag;
+  })
+  .factory('authService', function($log, $rootScope, $q, $http, $httpParamSerializer, _, apiService, storageService, userService, AuthTokenBag, AuthEvent, AuthError) {
     var STORAGE_KEY = {
       USER: 'user',
-      ACCESS_TOKEN: 'accessToken',
-      REFRESH_TOKEN: 'refreshToken'
+      TOKENS: 'tokens'
     };
 
     // Flag for whether or not the user is authenticated.
@@ -29,37 +65,42 @@ angular.module('nnAdmin')
 
       var data = $httpParamSerializer({
         grant_type: 'password',
-        client_id: ApiService.getOAuth2ClientId(),
-        client_secret: ApiService.getOAuth2ClientSecret(),
+        client_id: apiService.getOAuth2ClientId(),
+        client_secret: apiService.getOAuth2ClientSecret(),
         username: username,
         password: password
       });
 
-      ApiService.login(data)
+      apiService.login(data)
         .then(function(response) {
-          var accessToken = _tryGetAccessToken(response);
-          var refreshToken = _tryGetRefreshToken(response);
+          var tokens = _tryGetTokens(response);
 
-          _saveAccessToken(accessToken);
-          _saveRefreshToken(refreshToken);
+          _saveTokens(tokens.serialize());
 
-          ApiService.getUser()
+          userService.runAction('me')
             .then(function(response) {
               _authenticated = true;
 
               $rootScope.$broadcast(AuthEvent.USER_LOGIN, response);
 
-              _saveUser(response.data.data);
+              var user = response.data;
+
+              _saveUser(user);
+
+              $log.debug('User authenticated:', user);
 
               dfd.resolve(response);
-            }, function(err) {
-              _removeAccessToken();
-              _removeRefreshToken();
+            }, function(error) {
+              $log.debug('Failed to fetch user:', error);
 
-              dfd.reject(err);
+              _removeTokens();
+
+              dfd.reject(error);
             });
-        }, function(err) {
-          dfd.reject(err);
+        }, function(error) {
+          $log.debug('Failed to authenticate user:', error);
+
+          dfd.reject(error);
         });
 
       return dfd.promise;
@@ -73,17 +114,17 @@ angular.module('nnAdmin')
       var dfd = $q.defer();
 
       if (!isAuthenticated() && hasAccessToken()) {
-        ApiService.validateToken()
+        apiService.validate()
           .then(function(response) {
             _authenticated = true;
 
             $rootScope.$broadcast(AuthEvent.USER_LOGIN, response);
 
             dfd.resolve(response);
-          }, function(error) {
+          }, function() {
             logout();
 
-            dfd.reject(error);
+            dfd.reject(AuthError.ACCESS_DENIED);
           });
       } else {
         dfd.resolve();
@@ -96,28 +137,26 @@ angular.module('nnAdmin')
      * Refreshes an access token.
      * @return {promise}
      */
-    function refreshToken() {
+    function refresh() {
       var dfd = $q.defer();
 
       var data = $httpParamSerializer({
         refresh_token: _getRefreshToken(),
-        client_id: ApiService.getOAuth2ClientId(),
-        client_secret: ApiService.getOAuth2ClientSecret(),
+        client_id: apiService.getOAuth2ClientId(),
+        client_secret: apiService.getOAuth2ClientSecret(),
         grant_type: 'refresh_token'
       });
 
-      ApiService.refreshToken(data)
+      apiService.refresh(data)
         .then(function(response) {
-          var accessToken = _tryGetAccessToken(response);
-          var refreshToken = _tryGetRefreshToken(response);
+          var tokens = _tryGetTokens(response);
 
-          $log.debug('Access token refreshed:', accessToken);
+          _saveTokens(tokens.serialize());
 
-          _saveAccessToken(accessToken);
-          _saveRefreshToken(refreshToken);
-
-          dfd.resolve(accessToken);
+          dfd.resolve(tokens.getAccessToken());
         }, function(error) {
+          $log.debug('Failed to refresh access token:', error);
+
           dfd.reject(error);
         });
 
@@ -130,9 +169,10 @@ angular.module('nnAdmin')
     function logout() {
       _authenticated = false;
 
-      _removeAccessToken();
-      _removeRefreshToken();
+      _removeTokens();
       _removeUser();
+
+      $log.debug('User logged out successfully.');
 
       $rootScope.$broadcast(AuthEvent.USER_LOGOUT);
     }
@@ -162,7 +202,7 @@ angular.module('nnAdmin')
      * @return {Object}
      */
     function getUser() {
-      return StorageService.getValue(STORAGE_KEY.USER);
+      return storageService.getValue(STORAGE_KEY.USER);
     }
 
     /**
@@ -187,22 +227,18 @@ angular.module('nnAdmin')
      * @param {Object} user
      */
     function _saveUser(user) {
-      StorageService.setValue(STORAGE_KEY.USER, user);
+      storageService.setValue(STORAGE_KEY.USER, user);
 
       $rootScope.$broadcast(AuthEvent.USER_SAVED);
-
-      $log.debug('User saved:', user);
     }
 
     /**
      * Deletes user profile meta data.
      */
     function _removeUser() {
-      StorageService.removeValue(STORAGE_KEY.USER);
+      storageService.removeValue(STORAGE_KEY.USER);
 
       $rootScope.$broadcast(AuthEvent.USER_REMOVED);
-
-      $log.debug('User removed.');
     }
 
     /**
@@ -210,33 +246,47 @@ angular.module('nnAdmin')
      * @param {object} response
      * @returns {string}
      */
-    function _tryGetAccessToken(response) {
-      var token = _.get(response, 'data.access_token');
+    function _tryGetTokens(response) {
+      var accessToken = _.get(response, 'data.access_token');
+      var refreshToken = _.get(response, 'data.refresh_token');
 
-      if (!token) {
+      if (!accessToken) {
         throw new Error('Response does not contain an access token.');
       }
 
-      return token;
+      if (!refreshToken) {
+        throw new Error('Response does not contain a refresh token.');
+      }
+
+      return new AuthTokenBag(accessToken, refreshToken);
     }
 
     /**
-     * Stores an auth token.
-     * @param {string} token
+     * Stores OAuth2 tokens.
+     * @param {object} tokens
      */
-    function _saveAccessToken(token) {
-      StorageService.setValue(STORAGE_KEY.ACCESS_TOKEN, token);
+    function _saveTokens(tokens) {
+      storageService.setValue(STORAGE_KEY.TOKENS, tokens);
 
-      $log.debug('Access token saved:', token);
+      $log.debug('Auth tokens stored:', tokens);
     }
 
     /**
-     * Deletes a stored auth token.
+     * Deletes stored OAuth2 tokens.
      */
-    function _removeAccessToken() {
-      StorageService.removeValue(STORAGE_KEY.ACCESS_TOKEN);
+    function _removeTokens() {
+      storageService.removeValue(STORAGE_KEY.TOKENS);
 
-      $log.debug('Access token removed.');
+      $log.debug('Auth tokens removed.');
+    }
+
+    /**
+     * Returns a stored auth token.
+     * @return {AuthTokenBag}
+     */
+    function getTokens() {
+      var tokens = storageService.getValue(STORAGE_KEY.TOKENS);
+      return tokens ? new AuthTokenBag(tokens.accessToken, tokens.refreshToken) : null;
     }
 
     /**
@@ -244,11 +294,12 @@ angular.module('nnAdmin')
      * @return {string}
      */
     function getAccessToken() {
-      return StorageService.getValue(STORAGE_KEY.ACCESS_TOKEN);
+      var tokens = getTokens();
+      return tokens ? tokens.getAccessToken() : null;
     }
 
     /**
-     * Checks if an auth token has been saved.
+     * Checks if an access token has been stored.
      * @return {boolean}
      */
     function hasAccessToken() {
@@ -256,49 +307,16 @@ angular.module('nnAdmin')
     }
 
     /**
-     * Returns the refresh token from the given response or throws an error.
-     * @param {object} response
-     * @returns {string}
-     */
-    function _tryGetRefreshToken(response) {
-      var token = _.get(response, 'data.refresh_token');
-
-      if (!token) {
-        throw new Error('Response does not contain a refresh token.');
-      }
-
-      return token;
-    }
-
-    /**
-     * Stores a refresh token.
-     * @param {string} token
-     */
-    function _saveRefreshToken(token) {
-      StorageService.setValue(STORAGE_KEY.REFRESH_TOKEN, token);
-
-      $log.debug('Refresh token saved:', token);
-    }
-
-    /**
-     * Deletes a stored refresh token.
-     */
-    function _removeRefreshToken() {
-      StorageService.removeValue(STORAGE_KEY.REFRESH_TOKEN);
-
-      $log.debug('Refresh token removed.');
-    }
-
-    /**
      * Returns a stored refresh token.
      * @return {string}
      */
     function _getRefreshToken() {
-      return StorageService.getValue(STORAGE_KEY.REFRESH_TOKEN);
+      var tokens = getTokens();
+      return tokens ? tokens.getRefreshToken() : null;
     }
 
     /**
-     * Checks if a refresh token has been saved.
+     * Checks if a refresh token has been stored.
      * @return {boolean}
      */
     function hasRefreshToken() {
@@ -308,6 +326,7 @@ angular.module('nnAdmin')
     return {
       login: login,
       authenticate: authenticate,
+      refresh: refresh,
       ensureAuthenticated: ensureAuthenticated,
       logout: logout,
       getUser: getUser,

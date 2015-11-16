@@ -1,32 +1,28 @@
-'use strict';
-
 angular.module('nnAdmin')
 
   .config(function($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.when('/', '/edit');
-
-    $stateProvider.state('edit', {
-      url: '/edit',
-      templateUrl: 'components/edit/edit.html',
-      controller: 'EditCtrl',
+    $stateProvider.state('editor', {
+      url: '/editor',
+      templateUrl: 'components/editor/editor.html',
+      controller: 'EditorCtrl',
       resolve: {
-        ensureAuthenticated: function(AuthService) {
-          return AuthService.ensureAuthenticated();
+        ensureAuthenticated: function(authService) {
+          return authService.ensureAuthenticated();
         }
       }
     });
   })
 
-  .controller('EditCtrl', function($scope, $timeout, $log, DEBUG, FLOWCHART_URL, SlideService, ElementService, PreviewService) {
+  .controller('EditorCtrl', function($scope, $timeout, $log, DEBUG, FLOWCHART_URL, slideService, elementService, previewService) {
 
     var loadDelay = 1000;
     var saveDelay = 1000;
 
     $scope.currentIndex = 0;
     $scope.model = {};
-    $scope.slideService = SlideService;
-    $scope.elementService = ElementService;
-    $scope.previewService = PreviewService;
+    $scope.slideService = slideService;
+    $scope.elementService = elementService;
+    $scope.previewService = previewService;
     $scope.loadingText = '';
     $scope.flowchartUrl = '';
     $scope.adding = false;
@@ -38,7 +34,7 @@ angular.module('nnAdmin')
      * @param type
      */
     function createElement(type) {
-      ElementService.create($scope.model.elements, type);
+      elementService.create($scope.model.elements, type);
       $scope.adding = false;
     }
 
@@ -47,18 +43,18 @@ angular.module('nnAdmin')
      * @param {number} index
      */
     function activateSlide(index) {
-      SlideService.set($scope.currentIndex, $scope.model);
-      $scope.model = SlideService.get(index);
+      slideService.set($scope.currentIndex, $scope.model);
+      $scope.model = slideService.get(index);
       $scope.currentIndex = index;
     }
 
     /**
      * Saves a specific slide through the slide service.
      */
-    function saveSlide(slide) {
+    function updateSlide(slide) {
       var begin = +new Date();
       $scope.status = 'saving';
-      SlideService.save(slide)
+      slideService.update(slide)
         .then(function(response) {
           var delay = loadDelay - (+new Date() - begin);
           $timeout(function() {
@@ -75,7 +71,7 @@ angular.module('nnAdmin')
      * @returns {boolean}
      */
     function isSourceSlide(slide) {
-      return SlideService.isNextSlide(slide, $scope.model.name);
+      return slideService.isNextSlide(slide, $scope.model.name);
     }
 
     /**
@@ -84,7 +80,7 @@ angular.module('nnAdmin')
      * @returns {boolean}
      */
     function isDestinationSlide(name) {
-      return SlideService.isNextSlide($scope.model, name);
+      return slideService.isNextSlide($scope.model, name);
     }
 
     /**
@@ -93,12 +89,12 @@ angular.module('nnAdmin')
     function loadSlides() {
       var begin = +new Date();
       $scope.loading = true;
-      SlideService.load()
+      slideService.load()
         .then(function() {
           updateFlowchart();
           var delay = loadDelay - (+new Date() - begin);
           $timeout(function() {
-            $scope.model = SlideService.get($scope.currentIndex);
+            $scope.model = slideService.get($scope.currentIndex);
             $scope.loading = false;
           }, delay);
         }, function() {
@@ -112,11 +108,11 @@ angular.module('nnAdmin')
     function updateFlowchart() {
       var flowchart = FLOWCHART_URL;
       var label, l;
-      angular.forEach(SlideService.slides, function(value, key) {
+      angular.forEach(slideService.slides, function(value, key) {
         label = value.label + (value.save_after ? ';SAVE{bg:limegreen}' : '');
-        angular.forEach(SlideService.slides, function(v, k) {
+        angular.forEach(slideService.slides, function(v, k) {
           l = v.label + (v.save_after ? ';SAVE{bg:limegreen}' : '');
-          if (SlideService.isNextSlide(value, v.name)) {
+          if (slideService.isNextSlide(value, v.name)) {
             flowchart += '[' + label + ']->[' + l + '],';
           }
         });
@@ -144,7 +140,7 @@ angular.module('nnAdmin')
         }
         $scope.status = 'dirty';
         timeout = $timeout(function() {
-          saveSlide(value);
+          updateSlide(value);
           updateFlowchart();
         }, saveDelay);
       }, true);
@@ -154,7 +150,7 @@ angular.module('nnAdmin')
     $scope.activateSlide = activateSlide;
     $scope.isSourceSlide = isSourceSlide;
     $scope.isDestinationSlide = isDestinationSlide;
-    $scope.saveSlide = saveSlide;
+    $scope.updateSlide = updateSlide;
 
     loadSlides();
     watchModel();

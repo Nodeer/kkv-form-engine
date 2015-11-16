@@ -7,7 +7,7 @@ module.exports = function (grunt, options) {
             src: [
                 '<%= src %>/less/**/*.less',
                 '!<%= src %>/less/imports.less',
-                '!<%= src %>/less/blacktie/*.less'
+                '!<%= src %>/less/black-tie/*.less'
             ],
             dest: '<%= src %>/less/imports.less'
         }

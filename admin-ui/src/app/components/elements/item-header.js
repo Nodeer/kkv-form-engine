@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Directive that allows us to re-use the item header element.

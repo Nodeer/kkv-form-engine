@@ -1,9 +1,7 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Service that handles all logic related to form elements.
-    .service('FormElementService', function () {
+    .service('FormelementService', function () {
         var itemTypeOptions = [
             {type: 'text', label: 'Text'},
             {type: 'autocomplete', label: 'Autocomplete'},
@@ -51,18 +49,18 @@ angular.module('nnAdmin')
     })
 
     // Controller that connects the necessary services to the form element view.
-    .controller('FormElementCtrl', function ($scope, COLLAPSED_DEFAULT, ElementService, ItemService, StyleService, FormElementService) {
+    .controller('FormElementCtrl', function ($scope, COLLAPSED_DEFAULT, elementService, itemService, StyleService, FormelementService) {
         $scope.collapsed = COLLAPSED_DEFAULT;
         $scope.adding = false;
-        $scope.elementService = ElementService;
-        $scope.itemService = ItemService;
-        $scope.service = FormElementService;
+        $scope.elementService = elementService;
+        $scope.itemService = itemService;
+        $scope.service = FormelementService;
         $scope.model = $scope.data.elements[$scope.data.index];
-        $scope.model.items = ItemService.normalize($scope.model.items);
+        $scope.model.items = itemService.normalize($scope.model.items);
         $scope.model.style = StyleService.normalize($scope.model.style);
 
         function createItem(type) {
-            ItemService.create($scope.model.items, type);
+            itemService.create($scope.model.items, type);
             $scope.adding = false;
         }
 

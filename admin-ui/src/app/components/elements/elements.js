@@ -1,12 +1,10 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Constant that controls whether or not elements are collapsed by default.
     .constant('COLLAPSED_DEFAULT', true)
 
     // Service that handles all logic related to elements.
-    .service('ElementService', function ($log) {
+    .service('elementService', function ($log) {
         var typeOptions = [
             {type: 'choice', label: 'Choice'},
             {type: 'form', label: 'Form'},
@@ -123,7 +121,7 @@ angular.module('nnAdmin')
     })
 
     // Service that handles all logic related to items.
-    .service('ItemService', function () {
+    .service('itemService', function () {
         /**
          *
          * @param items

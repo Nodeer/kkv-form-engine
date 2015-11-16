@@ -16,6 +16,14 @@ a, button[type=button] {
   }
 }
 
+h3 {
+  font-size: 18px;
+}
+
+.login-form {
+  width: 340px;
+}
+
 .remove-button {
   .btn;
   .btn-link;
@@ -28,6 +36,12 @@ a, button[type=button] {
 }
 
 .submit-button {
+  .btn;
+  .btn-primary;
+  .btn-lg;
+}
+
+.cancel-button {
   .btn;
   .btn-link;
   .btn-lg;
@@ -78,6 +92,7 @@ a, button[type=button] {
 .header-affix() {
   #gradient > .vertical(#fff, transparent, 80%);
   padding-top: 0;
+  top: 0;
   width: 100%;
   z-index: 1000;
 }
@@ -113,33 +128,27 @@ a, button[type=button] {
   margin-bottom: 20px;
   padding: 10px 0;
 
-  &.affix {
-    .header-affix();
-  }
-
   .sidebar-title {
     margin-bottom: 20px;
   }
 }
 
-.edit {
+.edit-slide {
   .container;
   position: relative;
 }
 
-.edit-inner {
+.edit-slide-inner {
   .make-row();
 }
 
-.edit-left {
+.edit-slide-left {
   .make-md-column(8);
 
   .slide-elements {
     .panel-heading {
       h3 {
         float: left;
-        margin-top: 5px;
-        margin-bottom: 0;
       }
 
       .collapse-button {
@@ -229,6 +238,7 @@ a, button[type=button] {
       }
 
       .options-add {
+        text-align: center;
         margin-bottom: 15px;
       }
     }
@@ -287,7 +297,7 @@ a, button[type=button] {
   }
 }
 
-.edit-right {
+.edit-slide-right {
   .make-md-column(4);
 
   .active .panel-heading {
@@ -330,9 +340,35 @@ a, button[type=button] {
   }
 }
 
-.modal-content {
-  min-height: 400px;
+// -- Debug --
+
+.debug {
+  &-exception {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  &-message {
+    background: @gray-lighter;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  &-source {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  &-trace-nav {
+    font-size: 11px;
+  }
+
+  &-trace-source {
+    font-weight: bold;
+  }
 }
+
 
 // -- Text Angular --
 
@@ -347,13 +383,13 @@ a, button[type=button] {
   margin-bottom: 5px;
 }
 
-.ta-editor, .white-box {
+.ta-edit-slide, .white-box {
   padding: 10px;
   background-color: #FFF;
   border: 1px solid #EEE;
 }
 
-.ta-editor.ta-html,
+.ta-edit-slide.ta-html,
 .ta-scroll-window > .ta-bind,
 .ta-scroll-window.form-control {
   min-height: 200px;

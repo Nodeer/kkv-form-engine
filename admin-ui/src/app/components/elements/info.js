@@ -1,8 +1,6 @@
-'use strict';
-
 angular.module('nnAdmin')
 
-    .service('InfoService', function ($modal) {
+    .service('infoService', function ($modal) {
         function open(model) {
             $modal.open({
                 size: 'lg',
@@ -17,7 +15,7 @@ angular.module('nnAdmin')
         }
 
         function normalize(model) {
-            return angular.isDefined(model) && angular.isObject(model) ? model : {};
+            return angular.isDefined(model) && !angular.isArray(model) ? model : {};
         }
 
         this.open = open;

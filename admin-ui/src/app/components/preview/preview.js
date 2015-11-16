@@ -1,13 +1,11 @@
-'use strict';
-
 angular.module('nnAdmin')
     
     // Services that handles all logic related to the preview modal.
-    .service('PreviewService', function ($modal) {
+    .service('previewService', function ($modal) {
         function open(model) {
             $modal.open({
                 size: 'lg',
-                templateUrl: 'components/edit/preview.html',
+                templateUrl: 'components/preview/preview.html',
                 controller: 'PreviewCtrl',
                 resolve: {
                     model: function () {

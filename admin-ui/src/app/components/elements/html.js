@@ -1,9 +1,7 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Service that handles all logic related to html elements.
-    .service('HtmlElementService', function () {
+    .service('HtmlelementService', function () {
         this.tagOptions = [
             {name: 'div', label: 'Div'},
             {name: 'p', label: 'Paragraph'},
@@ -16,10 +14,10 @@ angular.module('nnAdmin')
     })
 
     // Controller that connects the necessary services to the html element.
-    .controller('HtmlElementCtrl', function ($scope, COLLAPSED_DEFAULT, ElementService, HtmlElementService) {
+    .controller('HtmlElementCtrl', function ($scope, COLLAPSED_DEFAULT, elementService, HtmlelementService) {
         $scope.collapsed = COLLAPSED_DEFAULT;
-        $scope.elementService = ElementService;
-        $scope.service = HtmlElementService;
+        $scope.elementService = elementService;
+        $scope.service = HtmlelementService;
         $scope.model = $scope.data.elements[$scope.data.index];
         $scope.model.style = $scope.model.style || [];
     })

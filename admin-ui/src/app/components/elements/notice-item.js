@@ -1,8 +1,6 @@
-'use strict';
-
 angular.module('nnAdmin')
 
-    .service('NoticeItemService', function () {
+    .service('NoticeitemService', function () {
         function getLabel(model) {
             return model.title || 'Untitled notice';
         }
@@ -16,10 +14,10 @@ angular.module('nnAdmin')
     })
 
     // Controller that connects the necessary services to the notice item view.
-    .controller('NoticeItemCtrl', function ($scope, $log, COLLAPSED_DEFAULT, NoticeItemService, ItemService) {
+    .controller('NoticeItemCtrl', function ($scope, $log, COLLAPSED_DEFAULT, NoticeitemService, itemService) {
         $scope.collapsed = COLLAPSED_DEFAULT;
-        $scope.itemService = ItemService;
-        $scope.service = NoticeItemService;
+        $scope.itemService = itemService;
+        $scope.service = NoticeitemService;
         $scope.model = $scope.data.items[$scope.data.index] || {};
     })
 

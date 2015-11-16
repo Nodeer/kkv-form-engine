@@ -1,6 +1,6 @@
 angular.module('nnAdmin')
   .constant('StorageNamespace', 'nnAdmin')
-  .service('StorageService', function($log, localStorageService) {
+  .service('storageService', function($log, localStorageService) {
     this.hasValue = function(key) {
       return !!localStorageService.get(key);
     };

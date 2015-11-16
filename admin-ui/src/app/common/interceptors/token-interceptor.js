@@ -8,8 +8,8 @@ angular.module('nnAdmin')
      * @returns {boolean}
      */
     function shouldRefreshToken(response) {
-      var AuthService = $injector.get('AuthService');
-      return response.status === 401 && AuthService.hasRefreshToken() && isUrlInQueue(response);
+      var authService = $injector.get('authService');
+      return response.status === 401 && authService.hasRefreshToken() && isUrlInQueue(response);
     }
 
     /**
@@ -40,8 +40,8 @@ angular.module('nnAdmin')
       request: function(config) {
         config.headers = config.headers || {};
 
-        var AuthService = $injector.get('AuthService');
-        var authToken = AuthService.getAccessToken();
+        var authService = $injector.get('authService');
+        var authToken = authService.getAccessToken();
 
         if (!shouldExcludeAuthorizationHeader(config) && authToken) {
           config.headers.Authorization = 'Bearer ' + authToken;
@@ -63,16 +63,16 @@ angular.module('nnAdmin')
       responseError: function(response) {
         var dfd = $q.defer();
         var $state = $injector.get('$state');
-        var AuthService = $injector.get('AuthService');
-        var ApiService = $injector.get('ApiService');
+        var authService = $injector.get('authService');
+        var apiService = $injector.get('apiService');
 
         if (response.status !== 401) {
           return $q.reject(response);
 
         }
 
-        if (response.config.url === ApiService.getRefreshTokenUrl()) {
-          AuthService.logout();
+        if (response.config.url === apiService.getRefreshTokenUrl()) {
+          authService.logout();
 
           dfd.reject(response);
 
@@ -82,10 +82,10 @@ angular.module('nnAdmin')
         urlRetryQueue.push(response.config.url);
 
         if (shouldRefreshToken(response)) {
-          AuthService.refreshToken()
+          authService.refresh()
             .then(function() {
               // Retry request
-              ApiService.sendRequest(response.config)
+              apiService.sendRequest(response.config)
                 .then(function(retryResponse) {
                   dfd.resolve(retryResponse);
                 }, function() {

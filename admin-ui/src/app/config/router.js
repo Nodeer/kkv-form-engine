@@ -4,9 +4,9 @@ angular.module('nnAdmin')
     $sceDelegateProvider.resourceUrlWhitelist(['self']);
     $urlRouterProvider.otherwise('/');
   })
-  .run(function($log, $rootScope, $state, $location, _, AuthService) {
+  .run(function($log, $rootScope, $state, $location, _, authService, AuthError) {
     $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-      if (AuthService.isAuthenticated() && toState.hideWhenAuthenticated) {
+      if (authService.isAuthenticated() && toState.hideWhenAuthenticated) {
         event.preventDefault();
 
         $log.debug('Redirecting to index...');
@@ -15,20 +15,12 @@ angular.module('nnAdmin')
       }
     });
 
-    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error, AuthError) {
-      var status = _.get(error, 'status');
-
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
       event.preventDefault();
 
-      $log.debug('State change error:', error.message);
+      $log.debug('Failed to change state:', error);
 
-      if (status === 404) {
-        $state.go('not-found', {}, {location: false});
-      }
-
-      if (status === 403) {
-        $state.go('access-denied', {}, {location: false});
-      }
+      $log.debug(AuthError, error);
 
       if (_.contains(AuthError, error)) {
         $log.debug('Authentication required. Redirecting to login...');

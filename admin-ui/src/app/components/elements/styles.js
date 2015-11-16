@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('nnAdmin')
 
     // Service that handles all logic related to styles.

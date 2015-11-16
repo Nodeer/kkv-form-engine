@@ -6,23 +6,23 @@ angular.module('nnAdmin')
       controller: 'LoginCtrl',
       hideWhenAuthenticated: true,
       resolve: {
-        authenticate: function(AuthService) {
-          return AuthService.authenticate();
+        authenticate: function(authService) {
+          return authService.authenticate();
         }
       }
     });
 
     $stateProvider.state('logout', {
       url: '/logout',
-      controller: function($scope, $state, AuthService) {
-        AuthService.logout();
+      controller: function($scope, $state, authService) {
+        authService.logout();
 
         $state.go('login');
       }
     });
   })
-  .controller('LoginCtrl', function($scope, $state, _, AuthService, ValidateService) {
-    $scope.validateService = ValidateService;
+  .controller('LoginCtrl', function($scope, $state, _, authService, validateService) {
+    $scope.validateService = validateService;
 
     /**
      * Logs in.
@@ -30,9 +30,9 @@ angular.module('nnAdmin')
     $scope.login = function() {
       $scope.loading = true;
 
-      AuthService.login($scope.email, $scope.password)
+      authService.login($scope.email, $scope.password)
         .then(function() {
-          $state.go('edit');
+          $state.go('slides');
         })
         .finally(function() {
           $scope.loading = false;
@@ -44,6 +44,6 @@ angular.module('nnAdmin')
      * @return {boolean}
      */
     $scope.canSubmit = function() {
-      return $scope.loginForm.$dirty && $scope.loginForm.$valid;
+      return validateService.isFormValid($scope.loginForm);
     };
   });
