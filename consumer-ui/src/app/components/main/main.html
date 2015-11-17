@@ -2,7 +2,7 @@
   <div class="main-head hidden-print">
     <img class="head-kkv" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto"/>
     <ul class="language-menu hidden-print">
-      <li ng-repeat="language in languages">
+      <li ng-class="{'active': language.iso_code === activeLanguage}" ng-repeat="language in languages">
         <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
       </li>
     </ul>
@@ -68,7 +68,7 @@
                       </div>
                     </div>
                     <a class="choice-info" ng-show="item.info.title"
-                       ng-click="infoService.open(item.info, language)">
+                       ng-click="infoService.open(item.info, activeLanguage)">
                       <i class="fa fa-info"></i>
                     </a>
                   </div>
@@ -98,15 +98,15 @@
                                      ng-model="session.model[slide.name][element.name][item.name]"
                                      ng-required="item.required"/>
                               <span class="fa fa-asterisk form-control-feedback"
-                                    title="Pakollinen kenttä"
+                                    title="{{ 'REQUIRED_FIELD' | translate }}"
                                     ng-show="item.required"></span>
                               <a class="input-info" ng-show="item.info.title"
-                                 ng-click="infoService.open(item.info, language)"><i class="fa fa-info"></i></a>
+                                 ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                             </div>
                           </div>
-                          <p class="textarea-max" ng-show="item.max_length"><b>{{ forms[slide.name][element.name].$valid
+                          <p class="text-max" ng-show="item.max_length"><b>{{ forms[slide.name][element.name].$valid
                             ? item.max_length - session.model[slide.name][element.name][item.name].length : 0 }}</b>
-                            merkkiä jäljellä</p>
+                            {{ 'CHARACTERS_LEFT' | translate }}</p>
                         </div>
                         <div ng-switch-when="checkbox" class="input-checkbox">
                           <label>
@@ -116,7 +116,7 @@
                                    ng-required="item.required"/> {{ translate(item.label) }}
                           </label>
                           <a class="input-info" ng-show="item.info.title"
-                             ng-click="infoService.open(item.info, language)"><i class="fa fa-info"></i></a>
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                         </div>
                         <div ng-switch-when="radio"></div>
                         <div ng-switch-when="dropdown" class="input-dropdown nullable">
@@ -126,10 +126,10 @@
                                   ng-model="session.model[slide.name][element.name][item.name]"
                                   ng-options="option.name as translate(option.label) for option in item.items"
                                   ng-required="item.required">
-                            <option value="">{{ translate(item.empty) || '-- Valitse --' }}</option>
+                            <option value="">{{ translate(item.empty) || ('EMPTY_TEXT' | translate) }}</option>
                           </select>
                           <a class="input-info info-info-dropdown" ng-show="item.info.title"
-                             ng-click="infoService.open(item.info, language)"><i class="fa fa-info"></i></a>
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                         </div>
                         <div ng-switch-when="autocomplete" class="input-text">
                           <label for="{{ item.id }}" ng-show="item.label"> {{ translate(item.label) }}</label>
@@ -142,9 +142,9 @@
                                  typeahead="name for name in service.autocomplete($viewValue, item, notices)"
                                  typeahead-min-length="3"/>
                           <span class="fa fa-asterisk form-control-feedback"
-                                title="Pakollinen kenttä" ng-show="item.required"></span>
+                                title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
                           <a class="input-info" ng-show="item.info.title"
-                             ng-click="infoService.open(item.info, language)"><i class="fa fa-info"></i></a>
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
 
                           <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
                         </div>
@@ -155,7 +155,7 @@
                 <div ng-switch-when="next" class="slide-next" ng-style="element.style"
                      ng-show="element.next_slide && service.validateForms(forms[slide.name], slide, session.model[slide.name])">
                   <a class="next-button" ng-click="loadSlide(element.next_slide, slide_idx)">
-                    <span>{{ translate(element.label) || 'Eteenpäin' }}</span>
+                    <span>{{ translate(element.label) || ('NEXT_TEXT' | translate) }}</span>
                     <i class="fa fa-chevron-down"></i>
                   </a>
                 </div>
@@ -166,11 +166,11 @@
         <div ng-switch-when="summary" class="summary">
           <div nn-summary="session.model"></div>
           <div class="summary-actions hidden-print">
-            <a class="summary-button" ng-click="service.print()">Tulosta valitus</a>
-            <a class="summary-button" ng-click="sendMail()">Lähetä sähköpostiin</a>
+            <a class="summary-button" ng-click="service.print()">{{ 'PRINT_BUTTON' | translate }}</a>
+            <a class="summary-button" ng-click="sendMail()">{{ 'SEND_MAIL_BUTTON' | translate }}</a>
           </div>
           <div class="summary-message hidden-print">
-            <span ng-show="showSentMessage">Sähköposti lähetetty</span>
+            <span ng-show="showSentMessage">{{ 'MAIL_SENT_TEXT' | translate }}</span>
           </div>
         </div>
       </div>

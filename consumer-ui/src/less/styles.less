@@ -1,5 +1,4 @@
 // -- Imports --
-
 // Bootstrap Framework
 @import (once) "../../bower_components/bootstrap/less/bootstrap";
 
@@ -32,6 +31,10 @@ hr {
   box-shadow: none;
 }
 
+.form-control-feedback {
+  top: 25px !important;
+}
+
 // -- Controllers --
 
 .main {
@@ -56,17 +59,26 @@ hr {
 
     .head-kkv {
       position: absolute;
-      top: 40px; left: 20px;
+      top: 40px;
+      left: 20px;
     }
 
     .language-menu {
       .list-inline;
       float: right;
-      margin: 16px 20px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 15px;
 
-      > li > a {
-        color: @nn-blue-dark !important;
-        text-decoration: none;
+      > li {
+        > a {
+          color: @nn-blue;
+          text-decoration: none;
+        }
+
+        &.active > a {
+          color: @nn-blue-dark;
+        }
       }
     }
   }
@@ -75,7 +87,8 @@ hr {
     .list-unstyled;
     position: fixed;
     margin: 0 -(@screen-lg-min / 2) 0 0;
-    top: 50%; right: 50%;
+    top: 50%;
+    right: 50%;
     z-index: 1;
 
     > li {
@@ -129,10 +142,6 @@ hr {
     }
   }
 
-  .html-element {
-
-  }
-
   .choice-element {
     @choice-size: 274px;
     .make-row();
@@ -173,7 +182,9 @@ hr {
         font-weight: 600;
         position: absolute;
         text-align: center;
-        right: @grid-gutter-width / 2; bottom: 20px; left: @grid-gutter-width / 2;
+        right: @grid-gutter-width / 2;
+        bottom: 20px;
+        left: @grid-gutter-width / 2;
       }
     }
 
@@ -181,7 +192,8 @@ hr {
       .nn-icon(64px; 36px; #fff; @nn-blue);
       border: 5px solid #fff;
       position: absolute;
-      top: -10px; right: 5px;
+      top: -10px;
+      right: 5px;
 
       > i {
         position: relative;
@@ -208,7 +220,8 @@ hr {
     .input-text > .input-info,
     .input-dropdown > .input-info {
       position: absolute;
-      top: 33px; right: -33px;
+      top: 32px;
+      right: -32px;
 
       @media screen and (max-width: @screen-xs-max) {
         display: none;
@@ -247,7 +260,7 @@ hr {
       }
     }
 
-    .textarea-max {
+    .text-max {
       color: #000;
       margin-top: 10px;
       text-align: right;
@@ -279,7 +292,9 @@ hr {
     background: #fff;
     color: @nn-blue;
     position: absolute;
-    right: 0; bottom: -(@action-button-height / 2); left: 0;
+    right: 0;
+    bottom: -(@action-button-height / 2);
+    left: 0;
 
     .next-button {
       .size(@action-button-width, @action-button-height);
@@ -295,7 +310,8 @@ hr {
       text-align: center;
       text-decoration: none;
       text-transform: uppercase;
-      left: 50%; bottom: 0;
+      left: 50%;
+      bottom: 0;
 
       > span {
         display: block;
@@ -347,7 +363,8 @@ hr {
     color: @close-button-color;
     display: block;
     position: absolute;
-    top: 20px; right: 20px;
+    top: 20px;
+    right: 20px;
 
     &:hover {
       color: @close-button-color;
@@ -356,7 +373,8 @@ hr {
     .close-text {
       display: inline-block;
       position: relative;
-      right: -5px; bottom: -10px;
+      right: -5px;
+      bottom: -10px;
     }
 
     .close-icon {

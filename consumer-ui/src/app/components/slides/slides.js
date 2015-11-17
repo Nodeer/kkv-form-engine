@@ -26,6 +26,14 @@ angular.module('nettineuvoja')
   })
   .factory('slideService', function($log, $rootScope, $q, $modal, resourceServiceFactory, slideSerializer) {
     var _slides = [];
+    var _summarySlide = {
+      name: 'summary',
+      label: {
+        'fi': 'Yhteenveto',
+        'sv': 'Sammandrag',
+        'en': 'Summary'
+      }
+    };
 
     return resourceServiceFactory('slides', {
       afterResponse: function(data) {
@@ -63,6 +71,7 @@ angular.module('nettineuvoja')
         return this.query()
           .then(function(response) {
             _slides = response.data;
+            _slides.push(_summarySlide)
           });
       },
       /**
@@ -80,6 +89,24 @@ angular.module('nettineuvoja')
         });
 
         return result;
+      },
+      /**
+       * Returns a specific element inside a slide.
+       * @param {string} slideName
+       * @param {string} elementName
+       * @returns {object|null}
+       */
+      getElement: function(slideName, elementName) {
+        var slide = this.getByName(slideName);
+        var element = null;
+
+        angular.forEach(slide.elements, function(value) {
+          if (value.name == elementName) {
+            element = value;
+          }
+        });
+
+        return element;
       }
     });
   });

@@ -240,7 +240,7 @@ angular.module('nettineuvoja')
   })
 
   // Controller that connects the necessary services to the main view.
-  .controller('MainCtrl', function($scope, $timeout, $document, $window, $interval, $log, $modal, DEBUG, ENVIRONMENT, slideService, InfoService, mainService, apiService, languageService) {
+  .controller('MainCtrl', function($scope, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, slideService, InfoService, mainService, apiService, languageService) {
 
     var firstSlide = 'etusivu';
     var loadDelay = 350;
@@ -257,7 +257,7 @@ angular.module('nettineuvoja')
     $scope.infoService = InfoService;
     $scope.debug = DEBUG;
     $scope.notices = {};
-    $scope.language = 'fi';
+    $scope.activeLanguage = $scope.session.language || 'fi';
     $scope.languages = [];
     $scope.showSentMessage = false;
 
@@ -406,6 +406,8 @@ angular.module('nettineuvoja')
         }
         mainService.saveSessionLocal(value);
       }, true/* objectEquality */);
+
+      changeLanguage($scope.session.language);
     }
 
     /**
@@ -416,6 +418,7 @@ angular.module('nettineuvoja')
     function startSession(sessionId) {
       $scope.session.id = sessionId;
       $scope.session.environment = ENVIRONMENT;
+      $scope.session.language = 'fi';
     }
 
     /**
@@ -449,16 +452,25 @@ angular.module('nettineuvoja')
         });
     };
 
-    $scope.changeLanguage = function(language) {
-      $scope.language = language;
-    };
+    /**
+     * @param {string} language
+     */
+    function changeLanguage(language) {
+      $scope.activeLanguage = $scope.session.language = language;
+      $translate.use(language);
+    }
 
+    /**
+     * @param {object} item
+     * @returns {string}
+     */
     $scope.translate = function(item) {
-      return languageService.translate(item, $scope.language);
+      return languageService.translate(item, $scope.activeLanguage);
     };
 
     $scope.scrollToElement = scrollToElement;
     $scope.loadSlide = loadSlide;
+    $scope.changeLanguage = changeLanguage;
 
     init();
 
