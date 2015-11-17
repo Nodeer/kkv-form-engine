@@ -9,7 +9,7 @@
   },
   "author": "Christoffer Niska <christoffer.niska@nordsoftware.com>",
   "license": "Proprietary",
-  "dependencies": {
+  "devDependencies": {
     "dotenv": "^1.0.0",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",

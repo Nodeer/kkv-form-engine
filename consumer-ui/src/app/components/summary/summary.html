@@ -1,0 +1,14 @@
+<h2 class="summary-title">Reklamaatio</h2>
+
+<div ng-repeat="data in summaryData | orderBy: 'order_number'" style="margin-bottom: 20px;">
+    <h3>{{ data.label }}</h3>
+
+    <div ng-repeat="item in data.items">
+        {{ item }}
+    </div>
+</div>
+
+<p style="margin-bottom: 20px;">
+    Odotan yrityksenne vastausta kahden viikon kuluessa.<br/>
+    Sen jälkeen minulla on mahdollisuus ottaa yhteyttä maistraattien kuluttajaneuvontaan.
+</p>

@@ -48,13 +48,26 @@ hr {
   }
 
   .main-head {
+    .clearfix();
     height: 120px;
+    padding: 30px 0;
     position: relative;
     text-align: center;
 
     .head-kkv {
       position: absolute;
       top: 40px; left: 20px;
+    }
+
+    .language-menu {
+      .list-inline;
+      float: right;
+      margin: 16px 20px 15px;
+
+      > li > a {
+        color: @nn-blue-dark !important;
+        text-decoration: none;
+      }
     }
   }
 
