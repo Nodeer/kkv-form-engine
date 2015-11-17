@@ -85,4 +85,7 @@ $app->group([
 
     // Mail
     $app->post('mail', 'MailController@sendMail');
+
+    // Languages
+    $app->get('languages', 'LanguageController@listLanguages');
 });
