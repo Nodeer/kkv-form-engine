@@ -42,6 +42,16 @@ angular.module('nnAdmin')
     }
 
     /**
+     * @returns {Promise}
+     */
+    function getLanguages() {
+      return sendRequest({
+        method: 'GET',
+        url: createUrl('languages')
+      });
+    }
+
+    /**
      * Returns the OAuth 2 client ID.
      * @return {string}
      */
@@ -95,6 +105,7 @@ angular.module('nnAdmin')
       login: login,
       validate: validate,
       refresh: refresh,
+      getLanguages: getLanguages,
       getRefreshTokenUrl: getRefreshTokenUrl,
       sendRequest: sendRequest,
       createUrl: createUrl,

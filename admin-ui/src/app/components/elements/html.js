@@ -14,18 +14,30 @@ angular.module('nnAdmin')
   })
 
   // Controller that connects the necessary services to the html element.
-  .controller('HtmlElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, htmlElementService, Languages) {
+  .controller('HtmlElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, htmlElementService, languageService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.elementService = elementService;
     $scope.service = htmlElementService;
     $scope.model = $scope.data.elements[$scope.data.index];
     $scope.model.style = $scope.model.style || [];
-    $scope.languages = Languages;
+    $scope.languages = [];
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
+        });
+    }
 
     if (angular.isString($scope.model.content)) {
       var content = $scope.model.content;
       $scope.model.content = {fi: content};
     }
+
+    loadLanguages();
   })
 
   // Directive that allows us to re-use the html element.

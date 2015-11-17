@@ -14,17 +14,29 @@ angular.module('nnAdmin')
   })
 
   // Controller that connects the necessary services to the option item view.
-  .controller('OptionItemCtrl', function($scope, $log, COLLAPSED_DEFAULT, optionItemService, itemService, Languages) {
+  .controller('OptionItemCtrl', function($scope, $log, COLLAPSED_DEFAULT, optionItemService, itemService, languageService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.itemService = itemService;
     $scope.service = optionItemService;
     $scope.model = $scope.data.items[$scope.data.index] || {};
-    $scope.languages = Languages;
+    $scope.languages = [];
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
+        });
+    }
 
     if (angular.isString($scope.model.label)) {
       var label = $scope.model.label;
       $scope.model.label = {fi: label};
     }
+
+    loadLanguages();
   })
 
   // Directive that allows us to re-use the option item element.

@@ -21,20 +21,20 @@
                  id="{{ model.id }}_name"
                  ng-model="model.name"/>
         </div>
-        <div ng-repeat="(iso_code, language) in languages">
+        <div ng-repeat="language in languages">
           <div nn-form-group>
-            <label for="{{ model.id }}_label_{{ iso_code }}">Label <small>{{ language }}</small></label>
-            <input class="form-control" type="text" name="{{ model.id }}_label_{{ iso_code }}"
-                   id="{{ model.id }}_label_{{ iso_code }}"
-                   ng-model="model.label[iso_code]"/>
+            <label for="{{ model.id }}_label_{{ language.iso_code }}">Label <small>{{ language.label }}</small></label>
+            <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+                   id="{{ model.id }}_label_{{ language.iso_code }}"
+                   ng-model="model.label[language.iso_code]"/>
           </div>
         </div>
-        <div ng-repeat="(iso_code, language) in languages">
+        <div ng-repeat="language in languages">
           <div nn-form-group>
-            <label for="{{ model.id }}_summary_label_{{ iso_code }}">Summary label <small>{{ language }}</small></label>
-            <input class="form-control" type="text" name="{{ model.id }}_summary_label_{{ iso_code }}"
-                   id="{{ model.id }}_summary_label_{{ iso_code }}"
-                   ng-model="model.summary_label[iso_code]"/>
+            <label for="{{ model.id }}_summary_label_{{ language.iso_code }}">Summary label <small>{{ language.label }}</small></label>
+            <input class="form-control" type="text" name="{{ model.id }}_summary_label_{{ language.iso_code }}"
+                   id="{{ model.id }}_summary_label_{{ language.iso_code }}"
+                   ng-model="model.summary_label[language.iso_code]"/>
           </div>
         </div>
         <div nn-form-group>

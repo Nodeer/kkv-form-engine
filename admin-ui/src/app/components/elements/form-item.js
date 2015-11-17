@@ -1,7 +1,7 @@
 angular.module('nnAdmin')
 
   // Controller that connects the necessary services to the form item view.
-  .controller('FormItemCtrl', function($scope, COLLAPSED_DEFAULT, itemService, slideService, formElementService, noticeItemService, infoService, Languages) {
+  .controller('FormItemCtrl', function($scope, COLLAPSED_DEFAULT, itemService, slideService, formElementService, noticeItemService, infoService, languageService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.itemService = itemService;
     $scope.infoService = infoService;
@@ -11,7 +11,17 @@ angular.module('nnAdmin')
     $scope.model.notices = noticeItemService.normalize($scope.model.notices);
     $scope.model.info = infoService.normalize($scope.model.info);
     $scope.model.items = itemService.normalize($scope.model.items);
-    $scope.languages = Languages;
+    $scope.languages = [];
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
+        });
+    }
 
     angular.forEach(['label', 'placeholder', 'empty'], function(prop) {
       if (angular.isString($scope.model[prop])) {
@@ -19,6 +29,8 @@ angular.module('nnAdmin')
         $scope.model[prop] = {fi: value};
       }
     });
+
+    loadLanguages();
   })
 
   // Directive that allows us to re-use the form item element.

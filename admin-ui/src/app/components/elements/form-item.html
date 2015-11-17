@@ -6,25 +6,25 @@
       <input class="form-control" type="text" name="{{ model.id }}_name" id="{{ model.id }}_name"
              ng-model="model.name"/>
     </div>
-    <div ng-repeat="(iso_code, language) in languages">
+    <div ng-repeat="language in languages">
       <div nn-form-group>
-        <label for="{{ model.id }}_label_{{ iso_code }}">Label
-          <small>{{ language }}</small>
+        <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+          <small>{{ language.label }}</small>
         </label>
-        <input class="form-control" type="text" name="{{ model.id }}_label_{{ iso_code }}"
-               id="{{ model.id }}_label_{{ iso_code }}"
-               ng-model="model.label[iso_code]"/>
+        <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+               id="{{ model.id }}_label_{{ language.iso_code }}"
+               ng-model="model.label[language.iso_code]"/>
       </div>
     </div>
     <div ng-switch="model.type">
       <div ng-switch-when="text">
-        <div ng-repeat="(iso_code, language) in languages">
+        <div ng-repeat="language in languages">
           <div nn-form-group>
-            <label for="{{ model.id }}_placeholder_{{ iso_code }}">Placeholder
-              <small>{{ language }}</small>
+            <label for="{{ model.id }}_placeholder_{{ language.iso_code }}">Placeholder
+              <small>{{ language.label }}</small>
             </label>
-            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ iso_code }}"
-                   id="{{ model.id }}_placeholder_{{ iso_code }}" ng-model="model.placeholder[iso_code]"/>
+            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   id="{{ model.id }}_placeholder_{{ language.iso_code }}" ng-model="model.placeholder[language.iso_code]"/>
           </div>
         </div>
         <div nn-form-group>
@@ -42,13 +42,13 @@
         </div>
       </div>
       <div ng-switch-when="autocomplete">
-        <div ng-repeat="(iso_code, language) in languages">
+        <div ng-repeat="language in languages">
           <div nn-form-group>
-            <label for="{{ model.id }}_placeholder_{{ iso_code }}">Placeholder
-              <small>{{ language }}</small>
+            <label for="{{ model.id }}_placeholder_{{ language.iso_code }}">Placeholder
+              <small>{{ language.label }}</small>
             </label>
-            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ iso_code }}"
-                   id="{{ model.id }}_placeholder_{{ iso_code }}" ng-model="model.placeholder[iso_code]"/>
+            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   id="{{ model.id }}_placeholder_{{ language.iso_code }}" ng-model="model.placeholder[language.iso_code]"/>
           </div>
         </div>
         <div nn-form-group>
@@ -68,14 +68,14 @@
       </div>
       <div ng-switch-when="checkbox"></div>
       <div ng-switch-when="dropdown">
-        <div ng-repeat="(iso_code, language) in languages">
+        <div ng-repeat="language in languages">
           <div nn-form-group>
-            <label for="{{ model.id }}_empty_{{ iso_code }}">Empty text
-              <small>{{ language }}</small>
+            <label for="{{ model.id }}_empty_{{ language.iso_code }}">Empty text
+              <small>{{ language.label }}</small>
             </label>
-            <input class="form-control" type="text" name="{{ model.id }}_empty_{{ iso_code }}"
-                   id="{{ model.id }}_empty_{{ iso_code }}"
-                   ng-model="model.empty[iso_code]"/>
+            <input class="form-control" type="text" name="{{ model.id }}_empty_{{ language.iso_code }}"
+                   id="{{ model.id }}_empty_{{ language.iso_code }}"
+                   ng-model="model.empty[language.iso_code]"/>
           </div>
         </div>
         <label>Options</label>

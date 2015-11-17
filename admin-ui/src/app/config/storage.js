@@ -1,4 +1,6 @@
 angular.module('nnAdmin')
   .config(function(localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('kkvAdmin');
+    localStorageServiceProvider
+      .setPrefix('kkvAdmin')
+      .setStorageType('sessionStorage');
   });

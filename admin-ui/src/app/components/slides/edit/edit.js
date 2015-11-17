@@ -20,7 +20,7 @@ angular.module('nnAdmin')
     });
   })
 
-  .controller('EditSlideCtrl', function($scope, $log, $timeout, DEBUG, FLOWCHART_URL, querySlides, slideService, slideSerializer, SlideState, elementService, previewService, Languages) {
+  .controller('EditSlideCtrl', function($scope, $log, $timeout, DEBUG, FLOWCHART_URL, querySlides, languageService, slideService, slideSerializer, SlideState, elementService, previewService) {
 
     var ready = false;
     var updateTimeout;
@@ -36,10 +36,10 @@ angular.module('nnAdmin')
     $scope.status = SlideState.CLEAN;
     $scope.debug = DEBUG;
     $scope.adding = false;
-    $scope.languages = Languages;
+    $scope.languages = [];
 
     /**
-     *
+     * @returns {Promise}
      */
     function loadSlides() {
       $scope.loading = true;
@@ -52,6 +52,16 @@ angular.module('nnAdmin')
         })
         .finally(function() {
           $scope.loading = false;
+        });
+    }
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
         });
     }
 
@@ -226,6 +236,7 @@ angular.module('nnAdmin')
       }, true);
     }
 
-    loadSlides()
+    loadLanguages()
+      .then(loadSlides)
       .then(startWatcher);
   });

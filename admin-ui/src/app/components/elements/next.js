@@ -1,14 +1,24 @@
 angular.module('nnAdmin')
 
   // Controller that connects the necessary services to the next element view.
-  .controller('NextElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, slideService, Languages) {
+  .controller('NextElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, slideService, languageService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.elementService = elementService;
     $scope.model = $scope.data.elements[$scope.data.index];
     $scope.model.style = $scope.model.style || [];
     $scope.isSticky = true;
     $scope.slideOptions = [];
-    $scope.languages = Languages;
+    $scope.languages = [];
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
+        });
+    }
 
     if (angular.isString($scope.model.label)) {
       var label = $scope.model.label;
@@ -19,6 +29,8 @@ angular.module('nnAdmin')
       .then(function(options) {
         $scope.slideOptions = options;
       });
+
+    loadLanguages()
   })
 
   // Directive that allows us to re-use the next element.

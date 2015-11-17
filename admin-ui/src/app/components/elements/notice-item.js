@@ -19,12 +19,22 @@ angular.module('nnAdmin')
   })
 
   // Controller that connects the necessary services to the notice item view.
-  .controller('NoticeItemCtrl', function($scope, $log, COLLAPSED_DEFAULT, noticeItemService, itemService, Languages) {
+  .controller('NoticeItemCtrl', function($scope, $log, COLLAPSED_DEFAULT, noticeItemService, itemService, languageService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.itemService = itemService;
     $scope.service = noticeItemService;
     $scope.model = $scope.data.items[$scope.data.index] || {};
-    $scope.languages = Languages;
+    $scope.languages = [];
+
+    /**
+     * @returns {Promise}
+     */
+    function loadLanguages() {
+      return languageService.getLanguages()
+        .then(function(languages) {
+          $scope.languages = languages;
+        });
+    }
 
     angular.forEach(['title', 'body'], function(prop) {
       if (angular.isString($scope.model[prop])) {
@@ -32,6 +42,8 @@ angular.module('nnAdmin')
         $scope.model[prop] = {fi: value};
       }
     });
+
+    loadLanguages();
   })
 
   // Directive that allows us to re-use the notice item element.
