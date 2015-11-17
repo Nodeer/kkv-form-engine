@@ -12,9 +12,9 @@
         </id>
 
         <field name="objectId" type="object_id" column="object_id" unique="true"/>
-        <field name="name" type="string" nullable="true"/>
-        <field name="label" type="string" nullable="true"/>
-        <field name="summaryLabel" type="string" column="summary_label" nullable="true"/>
+        <field name="name" type="string"/>
+        <field name="label" type="json_array"/>
+        <field name="summaryLabel" type="json_array" column="summary_label" nullable="true"/>
         <field name="elements" type="json_array" nullable="true"/>
         <field name="style" type="json_array" nullable="true"/>
         <field name="saveAfter" type="integer" column="save_after"/>

@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div nn-item-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System name</label>
+      <input class="form-control" type="text" id="{{ model.id }}_name" name="{{ model.id }}_name"
+             ng-model="model.name"/>
+    </div>
+    <div ng-repeat="(iso_code, language) in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_label_{{ iso_code }}">Label <small>{{ language }}</small></label>
+        <input class="form-control" type="text" id="{{ model.id }}_label_{{ iso_code }}"
+               name="{{ model.id }}_label_{{ iso_code }}"
+               ng-model="model.label[iso_code]"/>
+      </div>
+    </div>
+  </div>
+</div>

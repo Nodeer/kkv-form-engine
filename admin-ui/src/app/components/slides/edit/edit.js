@@ -20,7 +20,7 @@ angular.module('nnAdmin')
     });
   })
 
-  .controller('EditSlideCtrl', function($scope, $log, $timeout, DEBUG, FLOWCHART_URL, querySlides, slideService, slideSerializer, SlideState, elementService, previewService) {
+  .controller('EditSlideCtrl', function($scope, $log, $timeout, DEBUG, FLOWCHART_URL, querySlides, slideService, slideSerializer, SlideState, elementService, previewService, Languages) {
 
     var ready = false;
     var updateTimeout;
@@ -36,6 +36,7 @@ angular.module('nnAdmin')
     $scope.status = SlideState.CLEAN;
     $scope.debug = DEBUG;
     $scope.adding = false;
+    $scope.languages = Languages;
 
     /**
      *
@@ -83,6 +84,14 @@ angular.module('nnAdmin')
      */
     function activateSlide(index) {
       $scope.model = $scope.slides[index];
+
+      angular.forEach(['label', 'summary_label'], function(prop) {
+        if (angular.isString($scope.model[prop]) || angular.isArray($scope.model[prop])) {
+          var value = angular.isString($scope.model[prop]) ? $scope.model[prop] : undefined;
+          $scope.model[prop] = {fi: value};
+        }
+      });
+
       $scope.currentIndex = index;
     }
 
@@ -94,9 +103,9 @@ angular.module('nnAdmin')
       var label, l;
 
       angular.forEach($scope.slides, function(value, key) {
-        label = value.label + (value.save_after ? ';SAVE{bg:limegreen}' : '');
+        label = value.label.fi + (value.save_after ? ';SAVE{bg:limegreen}' : '');
         angular.forEach($scope.slides, function(v, k) {
-          l = v.label + (v.save_after ? ';SAVE{bg:limegreen}' : '');
+          l = v.label.fi + (v.save_after ? ';SAVE{bg:limegreen}' : '');
           if (isNextSlide(value, v.name)) {
             url += '[' + label + ']->[' + l + '],';
           }
@@ -186,9 +195,10 @@ angular.module('nnAdmin')
       return isNextSlide($scope.model, name);
     };
 
-    $scope.$on('resource.slides.create', function($event, slide) {
+    $scope.$on('resource.slides.create', function() {
+      $scope.currentIndex = $scope.slides.length;
+
       loadSlides();
-      activateSlide($scope.slides.indexOf(slide));
     });
 
     $scope.$on('resource.slides.delete', loadSlides);

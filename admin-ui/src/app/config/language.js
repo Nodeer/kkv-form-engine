@@ -1,5 +1,5 @@
 angular.module('nnAdmin')
-  .constant('Language', {
+  .constant('Languages', {
     'fi': 'Finnish',
     'sv': 'Swedish',
     'en': 'English'

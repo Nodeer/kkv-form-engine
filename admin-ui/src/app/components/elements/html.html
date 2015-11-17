@@ -1,25 +1,27 @@
 <div class="panel panel-default">
-    <div nn-element-header></div>
-    <div class="panel-body" ng-show="!collapsed">
-        <div nn-form-group>
-            <label for="{{ model.id }}_name">System Name</label>
-            <input class="form-control" type="text" name="{{ model.id }}_name"
-                    id="{{ model.id }}_name" ng-model="model.name"/>
-        </div>
-        <div nn-form-group>
-            <label for="{{ model.id }}_tag">Tag name</label>
-            <select class="form-control" name="{{ model.id }}_tag"
-                    id="{{ model.id }}_tag" ng-model="model.tag"
-                    ng-options="option.name as option.label for option in service.tagOptions">
-                <option value="">-- Tag name --</option>
-            </select>
-        </div>
-        <div nn-form-group>
-            <label for="{{ model.id }}_content">Content</label>
-
-            <div text-angular name="{{ model.id }}_content" id="{{ model.id }}_content"
-                 ng-model="model.content"></div>
-        </div>
-        <div nn-styles="model.style"></div>
+  <div nn-element-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System Name</label>
+      <input class="form-control" type="text" name="{{ model.id }}_name"
+             id="{{ model.id }}_name" ng-model="model.name"/>
     </div>
+    <div nn-form-group>
+      <label for="{{ model.id }}_tag">Tag name</label>
+      <select class="form-control" name="{{ model.id }}_tag"
+              id="{{ model.id }}_tag" ng-model="model.tag"
+              ng-options="option.name as option.label for option in service.tagOptions">
+        <option value="">-- Tag name --</option>
+      </select>
+    </div>
+    <div ng-repeat="(iso_code, language) in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_content_{{ iso_code }}">Content <small>{{ language }}</small></label>
+
+        <div text-angular name="{{ model.id }}_content_{{ iso_code }}" id="{{ model.id }}_content_{{ iso_code }}"
+             ng-model="model.content[iso_code]"></div>
+      </div>
+    </div>
+    <div nn-styles="model.style"></div>
+  </div>
 </div>

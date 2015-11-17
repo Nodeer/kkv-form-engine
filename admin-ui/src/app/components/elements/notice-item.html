@@ -1,21 +1,26 @@
 <div class="panel panel-default">
-    <div nn-item-header></div>
-    <div class="panel-body" ng-show="!collapsed">
-        <div nn-form-group>
-            <label for="{{ model.id }}_keyword">Keyword</label>
-            <input class="form-control" type="text" id="{{ model.id }}_keyword" name="{{ model.id }}_keyword"
-                   ng-model="model.keyword"/>
-        </div>
-        <div nn-form-group>
-            <label for="{{ model.id }}_title">Title</label>
-            <input class="form-control" type="text" id="{{ model.id }}_title" name="{{ model.id }}_title"
-                   ng-model="model.title"/>
-        </div>
-        <div nn-form-group>
-            <label for="{{ model.id }}_body">Content</label>
-
-            <div text-angular name="{{ model.id }}_body" id="{{ model.id }}_body"
-                 ng-model="model.body"></div>
-        </div>
+  <div nn-item-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_keyword">Keyword</label>
+      <input class="form-control" type="text" id="{{ model.id }}_keyword" name="{{ model.id }}_keyword"
+             ng-model="model.keyword"/>
     </div>
+    <div ng-repeat="(iso_code, language) in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_title_{{ iso_code }}">Title <small>{{ language }}</small></label>
+        <input class="form-control" type="text" id="{{ model.id }}_title_{{ iso_code }}"
+               name="{{ model.id }}_title_{{ iso_code }}"
+               ng-model="model.title[iso_code]"/>
+      </div>
+    </div>
+    <div ng-repeat="(iso_code, language) in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_body_{{ iso_code }}">Content <small>{{ language }}</small></label>
+
+        <div text-angular name="{{ model.id }}_body_{{ iso_code }}" id="{{ model.id }}_body_{{ iso_code }}"
+             ng-model="model.body[iso_code]"></div>
+      </div>
+    </div>
+  </div>
 </div>

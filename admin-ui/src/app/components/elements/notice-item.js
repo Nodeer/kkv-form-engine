@@ -1,34 +1,47 @@
 angular.module('nnAdmin')
 
-    .service('NoticeitemService', function () {
-        function getLabel(model) {
-            return model.title || 'Untitled notice';
-        }
+  .service('noticeItemService', function() {
+    function getLabel(model) {
+      return 'Notice';
+    }
 
-        function getName(model) {
-            return model.keyword;
-        }
+    function getName(model) {
+      return model.keyword;
+    }
 
-        this.getLabel = getLabel;
-        this.getName = getName;
-    })
+    function normalize(model) {
+      return angular.isDefined(model) && angular.isArray(model) ? model : [];
+    }
 
-    // Controller that connects the necessary services to the notice item view.
-    .controller('NoticeItemCtrl', function ($scope, $log, COLLAPSED_DEFAULT, NoticeitemService, itemService) {
-        $scope.collapsed = COLLAPSED_DEFAULT;
-        $scope.itemService = itemService;
-        $scope.service = NoticeitemService;
-        $scope.model = $scope.data.items[$scope.data.index] || {};
-    })
+    this.getLabel = getLabel;
+    this.getName = getName;
+    this.normalize = normalize;
+  })
 
-    // Directive that allows us to re-use the notice item element.
-    .directive('nnNoticeItem', function () {
-        return {
-            restrict: 'A',
-            controller: 'NoticeItemCtrl',
-            scope: {
-                data: '=nnNoticeItem'
-            },
-            templateUrl: 'components/elements/notice-item.html'
-        };
+  // Controller that connects the necessary services to the notice item view.
+  .controller('NoticeItemCtrl', function($scope, $log, COLLAPSED_DEFAULT, noticeItemService, itemService, Languages) {
+    $scope.collapsed = COLLAPSED_DEFAULT;
+    $scope.itemService = itemService;
+    $scope.service = noticeItemService;
+    $scope.model = $scope.data.items[$scope.data.index] || {};
+    $scope.languages = Languages;
+
+    angular.forEach(['title', 'body'], function(prop) {
+      if (angular.isString($scope.model[prop])) {
+        var value = $scope.model[prop];
+        $scope.model[prop] = {fi: value};
+      }
     });
+  })
+
+  // Directive that allows us to re-use the notice item element.
+  .directive('nnNoticeItem', function() {
+    return {
+      restrict: 'A',
+      controller: 'NoticeItemCtrl',
+      scope: {
+        data: '=nnNoticeItem'
+      },
+      templateUrl: 'components/elements/notice-item.html'
+    };
+  });

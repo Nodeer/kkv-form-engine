@@ -206,6 +206,10 @@ h3 {
   .form {
     label {
       margin-bottom: 10px;
+
+      > small {
+        color: @gray-light;
+      }
     }
   }
 
@@ -226,20 +230,6 @@ h3 {
 
       select, input[type=text] {
         .input-sm;
-      }
-
-      .option-item {
-        .make-row();
-      }
-
-      .option-label,
-      .option-name {
-        .make-xs-column(5);
-      }
-
-      .options-add {
-        text-align: center;
-        margin-bottom: 15px;
       }
     }
 

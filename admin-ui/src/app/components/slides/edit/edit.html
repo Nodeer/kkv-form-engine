@@ -3,7 +3,7 @@
     <div class="edit-slide-left">
       <div class="header-slide" nn-fixed-header="0">
         <h2 class="slide-title">
-          {{ model.label || 'Loading...' }}
+          {{ model.label['fi'] }} <small>{{ model.name }}</small>
           <span class="slide-status">
               <span class="status-saving" ng-show="status === 'saving'" title="Saving">
                   <i class="btb bt-gear bt-spin bt-lg"></i></span>
@@ -21,17 +21,21 @@
                  id="{{ model.id }}_name"
                  ng-model="model.name"/>
         </div>
-        <div nn-form-group>
-          <label for="{{ model.id }}_label">Label</label>
-          <input class="form-control" type="text" name="{{ model.id }}_label"
-                 id="{{ model.id }}_label"
-                 ng-model="model.label"/>
+        <div ng-repeat="(iso_code, language) in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_label_{{ iso_code }}">Label <small>{{ language }}</small></label>
+            <input class="form-control" type="text" name="{{ model.id }}_label_{{ iso_code }}"
+                   id="{{ model.id }}_label_{{ iso_code }}"
+                   ng-model="model.label[iso_code]"/>
+          </div>
         </div>
-        <div nn-form-group>
-          <label for="{{ model.id }}_summary_label">Summary label</label>
-          <input class="form-control" type="text" name="{{ model.id }}_summary_label"
-                 id="{{ model.id }}_summary_label"
-                 ng-model="model.summary_label"/>
+        <div ng-repeat="(iso_code, language) in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_summary_label_{{ iso_code }}">Summary label <small>{{ language }}</small></label>
+            <input class="form-control" type="text" name="{{ model.id }}_summary_label_{{ iso_code }}"
+                   id="{{ model.id }}_summary_label_{{ iso_code }}"
+                   ng-model="model.summary_label[iso_code]"/>
+          </div>
         </div>
         <div nn-form-group>
           <label>Flags</label>
@@ -109,7 +113,9 @@
             <div class="heading-inner">
               <div class="heading-left">
                 <h3>
-                  <a ng-click="activateSlide(getSlideIndex(slide))">{{ slide.label }} <small>{{ slide.name }}</small></a>
+                  <a ng-click="activateSlide(getSlideIndex(slide))">{{ slide.label['fi'] }}
+                    <small>{{ slide.name }}</small>
+                  </a>
                 </h3>
               </div>
               <div class="heading-right">

@@ -24,7 +24,7 @@ angular.module('nnAdmin')
         ];
 
         function getLabel(model) {
-            return model.label || 'Unlabeled choice';
+            return 'Option';
         }
 
         function getName(model) {
