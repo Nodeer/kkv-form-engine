@@ -10,11 +10,11 @@ composer install --no-ansi --no-dev --optimize-autoloader
 
 echo "Packing code..."
 vendor/bin/robo build
-echo "Shipping code for..."
+echo "Shipping code..."
 vendor/bin/robo deploy
 
-mv ${BASE_PATH}/vendor ${BASE_PATH}/vendor_dist && mv ${BASE_PATH}/vendor_dev ${BASE_PATH}/vendor
-rm -rf ${BASE_PATH}/vendor_dist
+rm -rf ${BASE_PATH}/vendor
+mv ${BASE_PATH}/vendor_dev ${BASE_PATH}/vendor
 
 echo "Deployment done!"
 cd ${WORKDIR}
