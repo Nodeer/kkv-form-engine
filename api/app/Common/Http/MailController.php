@@ -1,6 +1,7 @@
 <?php namespace Kkv\Common\Http;
 
 use GuzzleHttp\Message\Response;
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +27,7 @@ class MailController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendMail(Request $request)
+    public function sendMail(Request $request, Mailer $mailer)
     {
         $this->tryValidateData($request->all(), [
             'subject'    => 'required',
@@ -48,7 +49,7 @@ class MailController extends Controller
         ];
 
         // Send the email.
-        $response = Mail::send(['html-message', 'text-message'], $data, function ($message) use ($data) {
+        $response = $mailer->send(['html-message', 'text-message'], $data, function ($message) use ($data) {
             /** @var Message $message */
             $message->subject($data['subject']);
             foreach ($data['to'] as $to) {
