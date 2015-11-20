@@ -11,6 +11,7 @@ class Kernel extends \Laravel\Lumen\Console\Kernel
      * @var array
      */
     protected $commands = [
+        'Kkv\Slides\Console\Commands\ImportLegacySlidesCommand',
     ];
 
 

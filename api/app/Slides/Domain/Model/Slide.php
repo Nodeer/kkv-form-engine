@@ -9,11 +9,6 @@ use Nord\Lumen\Doctrine\ORM\Traits\AutoIncrements;
 use Nord\Lumen\Doctrine\ORM\Traits\SoftDeletes;
 use Nord\Lumen\Doctrine\ORM\Traits\Timestamps;
 
-/**
- * Class Slide.
- *
- * @package Kkv\Slides\Domain\Model
- */
 class Slide implements Entity
 {
 
