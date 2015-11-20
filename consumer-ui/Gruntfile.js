@@ -66,7 +66,7 @@ module.exports = function (grunt) {
 
     // Stage task
     grunt.registerTask('stage', [
-        'jshint',
+        //'jshint',
         'ngconstant:stage',
         'build',
         'optimize',
@@ -77,7 +77,7 @@ module.exports = function (grunt) {
 
     // Production task
     grunt.registerTask('prod', [
-        'jshint',
+        //'jshint',
         'ngconstant:prod',
         'build',
         'optimize',

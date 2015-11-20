@@ -1,6 +1,6 @@
 <h2 class="summary-title">{{ 'SUMMARY_HEADING' | translate }}</h2>
 
-<div ng-repeat="data in summaryData | orderBy: 'order_number'" style="margin-bottom: 20px;">
+<div ng-repeat="data in summaryData" style="margin-bottom: 20px;">
   <h3>{{ data.label }}</h3>
 
   <div ng-repeat="item in data.items">

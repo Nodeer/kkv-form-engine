@@ -89,7 +89,7 @@ hr {
     margin: 0 -(@screen-lg-min / 2) 0 0;
     top: 50%;
     right: 50%;
-    z-index: 1;
+    z-index: 1000;
 
     > li {
       margin-bottom: 10px;
@@ -101,6 +101,7 @@ hr {
         content: "";
         cursor: pointer;
         display: block;
+        z-index: 1001;
       }
     }
   }
@@ -220,8 +221,8 @@ hr {
     .input-text > .input-info,
     .input-dropdown > .input-info {
       position: absolute;
-      top: 32px;
-      right: -32px;
+      top: 33px;
+      right: -33px;
 
       @media screen and (max-width: @screen-xs-max) {
         display: none;
@@ -479,6 +480,7 @@ hr {
 .tooltip-inner {
   font-size: 18px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 // -- Angular --

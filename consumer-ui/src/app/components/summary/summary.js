@@ -34,48 +34,52 @@ angular.module('nettineuvoja')
           items = [];
 
           angular.forEach(value, function(elementValue, elementKey) {
-            element = slideService.getElement(key, elementKey);
-            switch (element.type) {
-              case 'choice':
-                angular.forEach(element.items, function(item) {
-                  if ((angular.isString(elementValue) && item.name == elementValue) || elementValue[item.name]) {
-                    items.push(translate(item.label));
-                  }
-                });
-                break;
-              case 'form':
-                angular.forEach(element.items, function(item) {
-                  if (elementValue[item.name]) {
-                    switch (item.type) {
-                      case 'checkbox':
-                        items.push(translate(item.label));
-                        break;
-                      case 'dropdown':
-                        angular.forEach(item.items, function(dropdownItem) {
-                          if (dropdownItem.name == elementValue[item.name]) {
-                            items.push(translate(item.label) + ': ' + translate(dropdownItem.label));
-                          }
-                        });
-                        break;
-                      default:
-                        var text = '';
-
-                        if (item.label) {
-                          text += translate(item.label) + ': ';
-                        }
-
-                        text += elementValue[item.name];
-
-                        items.push(text);
+            if (angular.isObject(elementValue)) {
+              element = slideService.getElement(key, elementKey);
+              switch (element.type) {
+                case 'choice':
+                  angular.forEach(element.items, function(item) {
+                    if ((angular.isString(elementValue) && item.name == elementValue) || elementValue[item.name]) {
+                      items.push(translate(item.label));
                     }
-                  }
-                });
-                break;
+                  });
+                  break;
+                case 'form':
+                  angular.forEach(element.items, function(item) {
+                    console.log(item.type);
+                    if (elementValue[item.name]) {
+                      switch (item.type) {
+                        case 'checkbox':
+                          items.push(translate(item.label));
+                          break;
+                        case 'dropdown':
+                          angular.forEach(item.items, function(dropdownItem) {
+                            console.log('foo', item);
+                            if (dropdownItem.name == elementValue[item.name]) {
+                              items.push(translate(item.label) + ': ' + translate(dropdownItem.label));
+                            }
+                          });
+                          break;
+                        default:
+                          var text = '';
+
+                          if (item.label) {
+                            text += translate(item.label) + ': ';
+                          }
+
+                          text += elementValue[item.name];
+
+                          items.push(text);
+                      }
+                    }
+                  });
+                  break;
+              }
             }
           });
 
           summaryData.push({
-            label: slide.summary_label ? translate(slide.summary_label) : translate(slide.label),
+            label: translate(slide.summary_label) || translate(slide.label),
             items: items
           });
         }
@@ -86,7 +90,7 @@ angular.module('nettineuvoja')
     }
 
     function translate(item) {
-      return languageService.translate(item, $scope.language);
+      return languageService.translate(item, $scope.activeLanguage);
     }
 
     buildSummaryData($scope.model);
@@ -100,6 +104,7 @@ angular.module('nettineuvoja')
 
     $scope.service = summaryService;
     $scope.slideService = slideService;
+    $scope.translate = translate;
   })
 
   .directive('nnSummary', function() {
@@ -108,7 +113,7 @@ angular.module('nettineuvoja')
       controller: 'SummaryCtrl',
       scope: {
         model: '=nnSummary',
-        language: '=nnSummaryLanguage'
+        activeLanguage: '=nnSummaryLanguage'
       },
       templateUrl: 'components/summary/summary.html'
     };

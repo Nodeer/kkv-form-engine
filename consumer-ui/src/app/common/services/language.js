@@ -28,7 +28,15 @@ angular.module('nettineuvoja')
      * @returns {string}
      */
     function translate(item, language) {
-      return item ? item[language] || item[_defaultLanguage] : undefined;
+      if (angular.isUndefined(item)) {
+        return undefined;
+      }
+
+      if (angular.isDefined(item[language])) {
+        return item[language];
+      }
+
+      return item[_defaultLanguage] || undefined;
     }
 
     return {

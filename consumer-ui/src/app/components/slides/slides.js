@@ -32,7 +32,8 @@ angular.module('nettineuvoja')
         'fi': 'Yhteenveto',
         'sv': 'Sammandrag',
         'en': 'Summary'
-      }
+      },
+      exclude_from_summary: true
     };
 
     return resourceServiceFactory('slides', {

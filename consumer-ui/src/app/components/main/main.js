@@ -10,7 +10,7 @@ angular.module('nettineuvoja')
   })
 
   // Service that handles all logic related to the main view.
-  .service('mainService', function($templateRequest, $compile, $window, $timeout, $rootScope, $log, storageService, DEBUG, FROM_EMAIL, apiService, KutiService) {
+  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, APP_NAME, FROM_EMAIL, apiService, KutiService) {
 
     var sessionKey = 'nnSession';
 
@@ -217,8 +217,8 @@ angular.module('nettineuvoja')
           $timeout(function() {
             var email = scope.session.model.yhteystiedot.yhteystiedot.sahkoposti;
             var config = {
-              subject: 'Nettineuvoja: Reklamaatio',
-              from_email: 'noreply@nettineuvoja.fi',
+              subject: APP_NAME + ': ' + $filter('translate')('SUMMARY_HEADING'),
+              from_email: FROM_EMAIL,
               from_name: 'Nettineuvoja',
               to: [{email: email, type: 'to'}],
               html: body.html(),
@@ -240,12 +240,11 @@ angular.module('nettineuvoja')
   })
 
   // Controller that connects the necessary services to the main view.
-  .controller('MainCtrl', function($scope, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, slideService, InfoService, mainService, apiService, languageService) {
+  .controller('MainCtrl', function($scope, $q, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, slideService, InfoService, mainService, apiService, languageService) {
 
     var firstSlide = 'etusivu';
     var loadDelay = 350;
     var scrollDelay = 150;
-    var defaultLanguage = 'fi';
     var pagerElement = angular.element('.slide-pager');
 
     $scope.loading = false;
@@ -308,11 +307,18 @@ angular.module('nettineuvoja')
         return;
       }
       $scope.slides.splice(index + 1);
+      //angular.forEach($scope.session.model, function(model, name) {
+      //  if (model.index > index) {
+      //    delete $scope.session.model[name];
+      //  }
+      //});
       var next = slideService.getByName(name);
       if (!next) {
         $log.error('Failed to find slide', name);
         return;
       }
+      $scope.session.model[next.name] = $scope.session.model[next.name] || {};
+      $scope.session.model[next.name].index = index + 1;
       if (current) {
         mainService.notifyChangeSlide(current.name, next.name, $scope.session);
         if (current.save_after) {
@@ -374,25 +380,38 @@ angular.module('nettineuvoja')
       }
     };
 
-    /**
-     * Initializes the main view by loading the first slide.
-     */
-    function init() {
-      $scope.loading = true;
+    function initSession() {
+      var dfd = $q.defer();
 
       // Get a new session ID if necessary
       if (angular.isUndefined($scope.session.id)) {
         mainService.getSessionId()
           .then(function(sessionId) {
             startSession(sessionId);
+
+            dfd.resolve($scope.session);
           });
+      } else {
+        dfd.resolve($scope.session);
       }
 
-      // Load the first slide.
-      slideService.load()
-        .then(function() {
-          $scope.loading = false;
-          loadSlide(firstSlide);
+      return dfd.promise;
+    }
+
+    /**
+     * Initializes the main view by loading the first slide.
+     */
+    function init() {
+      $scope.loading = true;
+
+      initSession()
+        .then(function(session) {
+          // Load the first slide.
+          slideService.load()
+            .then(function() {
+              $scope.loading = false;
+              loadSlide(firstSlide, -1);
+            });
         });
 
       apiService.getLanguages()
@@ -419,6 +438,7 @@ angular.module('nettineuvoja')
       $scope.session.id = sessionId;
       $scope.session.environment = ENVIRONMENT;
       $scope.session.language = 'fi';
+      $scope.session.model = {};
     }
 
     /**
@@ -466,6 +486,14 @@ angular.module('nettineuvoja')
      */
     $scope.translate = function(item) {
       return languageService.translate(item, $scope.activeLanguage);
+    };
+
+    $scope.calculateCharactersRemaining = function(string, maxLength) {
+      if (angular.isUndefined(string)) {
+        return maxLength;
+      }
+
+      return string.length < maxLength ? maxLength - string.length : 0;
     };
 
     $scope.scrollToElement = scrollToElement;

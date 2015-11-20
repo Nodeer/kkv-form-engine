@@ -18,7 +18,7 @@ module.exports = function(grunt, options) {
     },
     dev: {
       constants: {
-        DEBUG: true
+        DEBUG: false
       }
     },
     stage: {

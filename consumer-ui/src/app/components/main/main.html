@@ -81,15 +81,18 @@
                         <div ng-switch-default="text">
                           <label for="{{ item.id }}_value" ng-show="item.label">{{ translate(item.label) }}</label>
 
-                          <div ng-switch="item.inputType">
+                          <div ng-switch="item.input_type">
                             <div ng-switch-when="textarea" class="input-textarea">
-                              <textarea class="form-control" rows="{{ item.rows }}"
+                              <textarea class="form-control" rows="5"
                                         name="{{ item.id }}_value" id="{{ item.id }}_value"
                                         placeholder="{{ translate(item.placeholder) }}"
                                         ng-model="session.model[slide.name][element.name][item.name]"
                                         ng-style="item.style"
                                         ng-maxlength="item.max_length"
                                         ng-required="item.required"></textarea>
+                              <p class="text-max" ng-show="item.max_length">
+                                <b>{{ calculateCharactersRemaining(session.model[slide.name][element.name][item.name], item.max_length) }}</b>
+                                {{ 'CHARACTERS_LEFT' | translate }}</p>
                             </div>
                             <div ng-switch-default class="input-text">
                               <input class="form-control" type="{{ item.input_type || 'text' }}"
@@ -104,9 +107,6 @@
                                  ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                             </div>
                           </div>
-                          <p class="text-max" ng-show="item.max_length"><b>{{ forms[slide.name][element.name].$valid
-                            ? item.max_length - session.model[slide.name][element.name][item.name].length : 0 }}</b>
-                            {{ 'CHARACTERS_LEFT' | translate }}</p>
                         </div>
                         <div ng-switch-when="checkbox" class="input-checkbox">
                           <label>
@@ -145,7 +145,6 @@
                                 title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
                           <a class="input-info" ng-show="item.info.title"
                              ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
-
                           <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
                         </div>
                       </div>
