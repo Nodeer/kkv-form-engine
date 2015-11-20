@@ -11,7 +11,7 @@ module.exports = function (grunt, options) {
             },
             files: [
                 {
-                    src: ['releases/client-latest.zip'],
+                    src: ['releases/consumer-ui-latest.zip'],
                     dest: '/',
                     action: 'upload'
                 }
@@ -24,7 +24,7 @@ module.exports = function (grunt, options) {
             },
             files: [
                 {
-                    src: ['releases/client-dist.zip'],
+                    src: ['releases/consumer-ui-latest.zip'],
                     dest: '/',
                     action: 'upload'
                 }

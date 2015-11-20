@@ -9,6 +9,7 @@
     "laravel/lumen-framework": "5.1.*",
     "alchemy/zippy": "0.2.*@dev",
     "codegyre/robo": "dev-master",
+    "league/flysystem-aws-s3-v2": "~1.0@dev",
     "illuminate/mail": "~5.0@dev",
     "jenssegers/date": "^3.0@dev",
     "nordsoftware/lumen-core": "~0.13@dev",
