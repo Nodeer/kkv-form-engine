@@ -28,7 +28,7 @@ module.exports = function (grunt, options) {
         },
         prod: {
             constants: {
-                API_URL: 'http://ec2-52-30-50-252.eu-west-1.compute.amazonaws.com/api/v1'
+                API_URL: 'http://ec2-52-30-50-252.eu-west-1.compute.amazonaws.com/v1'
             }
         }
     };
