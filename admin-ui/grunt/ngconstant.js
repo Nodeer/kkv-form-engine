@@ -11,7 +11,7 @@ module.exports = function (grunt, options) {
                 API_VERSION: 'v1',
                 OAUTH2_CLIENT_ID: 'kkv-form-engine',
                 OAUTH2_CLIENT_SECRET: 'FpfqCBp7HO1+5I3R83mLfl2jjkEUucIeyxjNVnq9zQA=',
-                FLOWCHART_URL: 'http://yuml.me/diagram/scruffy/class/',
+                FLOWCHART_URL: 'http://yuml.me/diagram/plain/class/',
                 DEBUG: false,
                 VERSION: pkg.version
             }

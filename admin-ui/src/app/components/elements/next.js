@@ -20,7 +20,7 @@ angular.module('nnAdmin')
         });
     }
 
-    if (angular.isString($scope.model.label)) {
+    if (angular.isString($scope.model.label) && $scope.model.label.length) {
       var label = $scope.model.label;
       $scope.model.label = {fi: label};
     }

@@ -96,8 +96,8 @@ angular.module('nnAdmin')
       $scope.model = $scope.slides[index];
 
       angular.forEach(['label', 'summary_label'], function(prop) {
-        if (angular.isString($scope.model[prop]) || angular.isArray($scope.model[prop])) {
-          var value = angular.isString($scope.model[prop]) ? $scope.model[prop] : undefined;
+        if (angular.isString($scope.model[prop]) && $scope.model[prop].length) {
+          var value = $scope.model[prop];
           $scope.model[prop] = {fi: value};
         }
       });
@@ -113,9 +113,9 @@ angular.module('nnAdmin')
       var label, l;
 
       angular.forEach($scope.slides, function(value, key) {
-        label = value.label.fi + (value.save_after ? ';SAVE{bg:limegreen}' : '');
+        label = value.name + (value.save_after ? ';SAVE{bg:limegreen}' : '');
         angular.forEach($scope.slides, function(v, k) {
-          l = v.label.fi + (v.save_after ? ';SAVE{bg:limegreen}' : '');
+          l = v.name + (v.save_after ? ';SAVE{bg:limegreen}' : '');
           if (isNextSlide(value, v.name)) {
             url += '[' + label + ']->[' + l + '],';
           }

@@ -32,7 +32,7 @@ angular.module('nnAdmin')
         });
     }
 
-    if (angular.isString($scope.model.content)) {
+    if (angular.isString($scope.model.content) && $scope.model.content.length) {
       var content = $scope.model.content;
       $scope.model.content = {fi: content};
     }

@@ -15,7 +15,16 @@ angular.module('nnAdmin')
     }
 
     function normalize(model) {
-      return angular.isDefined(model) && !angular.isArray(model) ? model : {};
+      model = angular.isDefined(model) && !angular.isArray(model) ? model : {};
+
+      angular.forEach(['title', 'content'], function(prop) {
+        if (angular.isString(model[prop]) && model[prop].length) {
+          var value = model[prop];
+          model[prop] = {fi: value};
+        }
+      });
+
+      return model;
     }
 
     this.open = open;
@@ -39,13 +48,6 @@ angular.module('nnAdmin')
     $scope.close = function() {
       $modalInstance.dismiss('close');
     };
-
-    angular.forEach(['title', 'content'], function(prop) {
-      if (angular.isString($scope.model[prop])) {
-        var value = $scope.model[prop];
-        $scope.model[prop] = {fi: value};
-      }
-    });
 
     loadLanguages();
   });

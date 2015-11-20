@@ -24,7 +24,7 @@ angular.module('nnAdmin')
     }
 
     angular.forEach(['label', 'placeholder', 'empty'], function(prop) {
-      if (angular.isString($scope.model[prop])) {
+      if (angular.isString($scope.model[prop]) && $scope.model[prop].length) {
         var value = $scope.model[prop];
         $scope.model[prop] = {fi: value};
       }

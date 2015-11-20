@@ -3,6 +3,10 @@ angular.module('nnAdmin')
     // Services that handles all logic related to the preview modal.
     .service('previewService', function ($modal) {
         function open(model) {
+            if (!model.url.length) {
+                return;
+            }
+
             $modal.open({
                 size: 'lg',
                 templateUrl: 'components/preview/preview.html',
