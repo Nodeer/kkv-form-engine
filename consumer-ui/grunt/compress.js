@@ -1,20 +1,8 @@
 module.exports = function (grunt, options) {
     return {
-        stage: {
-            options: {
-                archive: 'releases/client-latest.zip'
-            },
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= web %>/',
-                    src: ['**']
-                }
-            ]
-        },
         prod: {
             options: {
-                archive: 'releases/client-dist.zip'
+                archive: 'releases/consumer-ui-latest.zip'
             },
             files: [
                 {

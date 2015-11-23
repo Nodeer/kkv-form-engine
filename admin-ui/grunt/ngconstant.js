@@ -21,14 +21,9 @@ module.exports = function (grunt, options) {
                 DEBUG: true
             }
         },
-        stage: {
-            constants: {
-                API_URL: 'http://live-nettineuvoja.sites.nordsoftware.com/api/v1.0'
-            }
-        },
         prod: {
             constants: {
-                API_URL: 'http://ec2-52-30-50-252.eu-west-1.compute.amazonaws.com/v1'
+                API_URL: 'http://ec2-52-30-50-252.eu-west-1.compute.amazonaws.com'
             }
         }
     };

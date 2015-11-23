@@ -64,17 +64,6 @@ module.exports = function (grunt) {
         'publish'
     ]);
 
-    // Stage task
-    grunt.registerTask('stage', [
-        //'jshint',
-        'ngconstant:stage',
-        'build',
-        'optimize',
-        'publish',
-        'compress:stage',
-        'aws_s3:stage'
-    ]);
-
     // Production task
     grunt.registerTask('prod', [
         //'jshint',
