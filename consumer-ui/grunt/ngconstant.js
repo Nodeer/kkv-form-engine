@@ -23,7 +23,7 @@ module.exports = function(grunt, options) {
     },
     prod: {
       constants: {
-        API_URL: 'http://ec2-52-30-50-252.eu-west-1.compute.amazonaws.com',
+        API_URL: 'http://ec2-52-31-144-132.eu-west-1.compute.amazonaws.com',
         ENVIRONMENT: 'production',
         FROM_EMAIL: 'noreply@nettineuvoja.fi'
       }
