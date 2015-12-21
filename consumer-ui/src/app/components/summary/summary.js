@@ -34,8 +34,8 @@ angular.module('nettineuvoja')
           items = [];
 
           angular.forEach(value, function(elementValue, elementKey) {
-            if (angular.isObject(elementValue)) {
-              element = slideService.getElement(key, elementKey);
+            element = slideService.getElement(key, elementKey);
+            if (element) {
               switch (element.type) {
                 case 'choice':
                   angular.forEach(element.items, function(item) {
@@ -54,7 +54,6 @@ angular.module('nettineuvoja')
                           break;
                         case 'dropdown':
                           angular.forEach(item.items, function(dropdownItem) {
-                            console.log('foo', item);
                             if (dropdownItem.name == elementValue[item.name]) {
                               items.push(translate(item.label) + ': ' + translate(dropdownItem.label));
                             }
